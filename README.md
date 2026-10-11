@@ -129,3 +129,21 @@ embed raster images, so CSS recoloring is impossible). The footer is
 deliberately light and dark bands use plain text. When you have a white logo
 file, drop it in `public/images/brand/` and use it in
 `src/components/CtaBand.astro` / `Footer.astro`.
+
+## Product checkout (Lemon Squeezy)
+
+A product's **Buy now** button comes from `links.buy_url` (Products → Links →
+Buy URL in the CMS). The sample product GrintDesk carries a placeholder
+Lemon Squeezy URL (`.../buy/REPLACE-WITH-VARIANT-UUID`). To wire a real
+checkout: create the product in your Lemon Squeezy store, copy its *Share →
+Checkout link*, and paste it into Buy URL. No code change needed; when
+`buy_url` is set it becomes the primary button on the product page.
+
+## Solution enquiry
+
+`/solutions/enquiry` holds the enquiry form; each solution's closing CTA links
+to it with the solution preselected. Destination address is **Pages → Contact →
+Solution enquiry email** (currently `grintbyte@gmail.com`). While no form
+endpoint is configured, submitting composes an email in the visitor's mail app
+(mailto); once `form_action_url` is set (Web3Forms/Formspree, registered for
+the enquiry address), the same form posts there directly.

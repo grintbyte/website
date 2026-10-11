@@ -11,7 +11,8 @@ features:
   - "REST API and webhooks for integrations"
 version: "3.2.0"
 compatibility: "Cloud-hosted or self-hosted (Docker)"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
 ---

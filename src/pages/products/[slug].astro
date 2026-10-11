@@ -58,10 +58,12 @@ const Content = product ? (await render(product)).Content : null;
 const linkButtons = data
   ? (
       [
+        // Buy first: when a checkout link (e.g. Lemon Squeezy) exists it is
+        // the primary action and gets the gradient button styling below.
+        ["Buy now", data.links.buy_url],
         ["Store page", data.links.store_url],
         ["Live demo", data.links.demo_url],
         ["Documentation", data.links.docs_url],
-        ["Buy now", data.links.buy_url],
       ] as const
     ).filter(([, url]) => url)
   : [];

@@ -178,6 +178,7 @@ collections:
         file: src/content/pages/contact.json
         fields:
           - { name: email, label: Email, widget: string }
+          - { name: enquiry_email, label: "Solution enquiry email (destination)", widget: string, required: false }
           - { name: whatsapp, label: "WhatsApp (international format, e.g. +62812...)", widget: string, required: false }
           - { name: address, label: Address, widget: text, required: false }
           - { name: working_hours, label: Working hours, widget: string, required: false }

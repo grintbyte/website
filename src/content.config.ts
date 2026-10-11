@@ -97,6 +97,7 @@ const contact = defineCollection({
   loader: file("./src/content/pages/contact.json", { parser: singleton("contact") }),
   schema: z.object({
     email: z.string(),
+    enquiry_email: z.string().optional(),
     whatsapp: z.string().optional(),
     address: z.string().optional(),
     working_hours: z.string().optional(),

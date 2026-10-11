@@ -77,5 +77,10 @@ const { Content } = await render(solution);
     </section>
   </article>
 
-  <CtaBand title={data.cta_text} body="One short call is usually enough to tell whether this is the right path." ctaText={data.cta_text} />
+  <CtaBand
+    title={data.cta_text}
+    body="One short call is usually enough to tell whether this is the right path."
+    ctaText={data.cta_text}
+    ctaHref={`/solutions/enquiry?solution=${solution.id}`}
+  />
 </BaseLayout>
