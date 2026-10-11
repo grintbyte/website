@@ -7,6 +7,10 @@ import { getCollection } from "astro:content";
 const solutions = (await getCollection("solutions")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+const products = await getCollection("products");
+const countByCategory = Object.fromEntries(
+  CATEGORIES.map((c) => [c.slug, products.filter((p) => p.data.category === c.label).length]),
+);
 const logo = withBase("/images/brand/grintbyte-logo.png");
 ---
 
@@ -20,7 +24,10 @@ const logo = withBase("/images/brand/grintbyte-logo.png");
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Main">
       <a href={withBase("/")} class="rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim">Home</a>
 
-      <div class="relative" data-dropdown>
+      <!-- Mega menu: the panel is positioned against the sticky <header>
+           (nearest positioned ancestor), so it spans the full viewport width
+           while this wrapper stays in the nav flow. -->
+      <div data-dropdown>
         <button
           type="button"
           class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim"
@@ -32,26 +39,40 @@ const logo = withBase("/images/brand/grintbyte-logo.png");
         </button>
         <div
           id="menu-products"
-          class="absolute left-1/2 top-full hidden w-[34rem] -translate-x-1/2 rounded-xl border border-brand-wash bg-paper p-3 shadow-lg shadow-brand-deep/5"
+          class="absolute inset-x-0 top-full hidden border-b border-brand-wash bg-paper shadow-lg shadow-brand-deep/8"
         >
-          <ul class="grid grid-cols-2 gap-1">
-            {CATEGORIES.map((c) => (
-              <li>
-                <a href={withBase(`/products/${c.slug}`)} class="flex items-start gap-3 rounded-lg p-3 hover:bg-paper-dim">
-                  <span class="mt-0.5 text-brand"><Icon name={c.icon} class="h-5 w-5" /></span>
-                  <span>
-                    <span class="block text-sm font-semibold">{c.label}</span>
-                    <span class="block text-xs text-ink-soft">{c.blurb}</span>
-                  </span>
-                </a>
-              </li>
-            ))}
-            <li class="col-span-2 border-t border-brand-wash pt-1">
-              <a href={withBase("/products")} class="block rounded-lg p-3 text-sm font-semibold text-brand hover:bg-paper-dim">
-                View the full catalog
+          <div class="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[1fr_16rem]">
+            <ul class="grid grid-cols-2 gap-x-6 gap-y-1 xl:grid-cols-3">
+              {CATEGORIES.map((c) => (
+                <li>
+                  <a href={withBase(`/products/${c.slug}`)} class="group flex items-start gap-3 rounded-lg p-3 hover:bg-paper-dim">
+                    <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-wash text-brand">
+                      <Icon name={c.icon} class="h-5 w-5" />
+                    </span>
+                    <span>
+                      <span class="block text-sm font-semibold group-hover:text-brand">
+                        {c.label}
+                        <span class="ml-1.5 font-normal text-ink-soft">{countByCategory[c.slug]}</span>
+                      </span>
+                      <span class="mt-0.5 block text-xs leading-snug text-ink-soft">{c.blurb}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div class="border-t border-brand-wash pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+              <p class="font-display text-sm font-bold">The full catalog</p>
+              <p class="mt-2 text-xs leading-relaxed text-ink-soft">
+                {products.length} products across {CATEGORIES.length} platforms, with filters and search.
+              </p>
+              <a
+                href={withBase("/products")}
+                class="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-4 py-2 text-sm font-semibold text-brand hover:bg-brand-wash"
+              >
+                Browse all products
               </a>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </div>
 
