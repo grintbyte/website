@@ -1,0 +1,82 @@
+---
+import { withBase } from "../lib/paths";
+import { CATEGORIES } from "../lib/categories";
+import { getCollection, getEntry } from "astro:content";
+
+const settings = (await getEntry("settings", "site"))!.data;
+const contact = (await getEntry("contact", "contact"))!.data;
+const solutions = (await getCollection("solutions")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const year = new Date().getFullYear();
+---
+
+<!-- Light footer by design: the only white wordmark asset does not exist yet
+     (see README "Brand assets"), and the real logo is drawn for light
+     backgrounds. Asymmetric columns: brand block wider than the link lists. -->
+<footer class="border-t border-brand-wash bg-paper-dim">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[2fr_1fr_1fr]">
+    <div>
+      <img
+        src={withBase(settings.logo)}
+        alt={settings.site_title}
+        class="h-10 w-auto"
+        width="200"
+        height="90"
+        loading="lazy"
+      />
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-ink-soft">{settings.footer_text}</p>
+      <p class="mt-4 text-sm">
+        <a href={`mailto:${contact.email}`} class="font-medium text-brand hover:underline">{contact.email}</a>
+      </p>
+      {settings.social_links.length > 0 && (
+        <ul class="mt-4 flex gap-4">
+          {settings.social_links.map((s) => (
+            <li>
+              <a href={s.url} class="text-sm font-medium text-brand hover:underline" rel="noopener">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <nav aria-label="Products">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-ink">Products</h2>
+      <ul class="mt-4 space-y-2.5">
+        {CATEGORIES.map((c) => (
+          <li>
+            <a href={withBase(`/products/${c.slug}`)} class="text-sm text-ink-soft hover:text-brand hover:underline">
+              {c.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Solutions">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-ink">Solutions</h2>
+      <ul class="mt-4 space-y-2.5">
+        {solutions.map((s) => (
+          <li>
+            <a href={withBase(`/solutions/${s.id}`)} class="text-sm text-ink-soft hover:text-brand hover:underline">
+              {s.data.title}
+            </a>
+          </li>
+        ))}
+        <li class="pt-2">
+          <a href={withBase("/about")} class="text-sm text-ink-soft hover:text-brand hover:underline">About GrintByte</a>
+        </li>
+        <li>
+          <a href={withBase("/contact")} class="text-sm text-ink-soft hover:text-brand hover:underline">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-brand-wash">
+    <p class="mx-auto max-w-6xl px-4 py-5 text-xs text-ink-soft">
+      © {year} {settings.site_title}. {settings.tagline}.
+    </p>
+  </div>
+</footer>

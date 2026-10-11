@@ -1,0 +1,20 @@
+---
+/**
+ * Functional badge (R-09): communicates a real attribute, the pricing model,
+ * at catalog-scan time. Plain tint, no glow, no border stacking.
+ */
+interface Props {
+  pricing_type: "Free" | "Freemium" | "Paid";
+  price?: string;
+}
+const { pricing_type, price } = Astro.props;
+const tint = {
+  Free: "bg-brand-wash text-brand-deep",
+  Freemium: "bg-brand-wash text-brand-deep",
+  Paid: "bg-brand text-white",
+}[pricing_type];
+---
+
+<span class={`inline-flex shrink-0 items-center rounded-md px-2 py-1 text-xs font-semibold ${tint}`}>
+  {price ?? pricing_type}
+</span>

@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # Scenario 1 - custom domain:   SITE_URL: https://grintbyte.com      BASE_PATH: /
+  # Scenario 2 - project page:    SITE_URL: https://<owner>.github.io  BASE_PATH: /<repo>
+  # (For scenario 1, also rename public/CNAME.example to public/CNAME with your domain.)
+  SITE_URL: https://grintbyte.github.io
+  BASE_PATH: /website
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Enable GitHub Pages (workflow build type)
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Build with Astro
+        uses: withastro/action@v4
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+          BASE_PATH: ${{ env.BASE_PATH }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,87 @@
+---
+import { getEntry } from "astro:content";
+import { withBase } from "../lib/paths";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  /** Extra JSON-LD objects for this page (Organization is added on every page). */
+  jsonLd?: object[];
+}
+
+const settings = (await getEntry("settings", "site"))!.data;
+const contact = (await getEntry("contact", "contact"))!.data;
+const { title, description = settings.seo.meta_description, ogImage, jsonLd = [] } = Astro.props;
+
+const pageTitle = title === settings.site_title ? `${settings.site_title} | ${settings.tagline}` : `${title} | ${settings.site_title}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(withBase(ogImage ?? settings.seo.og_image), Astro.site);
+
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: settings.site_title,
+  description: settings.tagline,
+  url: Astro.site?.toString(),
+  logo: new URL(withBase(settings.logo), Astro.site).toString(),
+  email: contact.email,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href={withBase("/favicon.ico")} sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png")} />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/site.webmanifest")} />
+    <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={settings.site_title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    {jsonLd.map((ld) => (
+      <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    ))}
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

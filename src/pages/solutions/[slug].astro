@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Icon from "../../components/Icon.astro";
+import { withBase } from "../../lib/paths";
+
+export async function getStaticPaths() {
+  const solutions = await getCollection("solutions");
+  return solutions.map((solution) => ({
+    params: { slug: solution.id },
+    props: { solution },
+  }));
+}
+
+const { solution } = Astro.props;
+const { data } = solution;
+const { Content } = await render(solution);
+---
+
+<BaseLayout title={data.title} description={data.short_description}>
+  <article class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+    <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
+      <a href={withBase("/solutions")} class="hover:text-brand hover:underline">Solutions</a>
+      <span aria-hidden="true"> / </span>
+      <span aria-current="page">{data.title}</span>
+    </nav>
+
+    <div class="mt-4 flex items-center gap-4">
+      {data.icon && (
+        <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-wash text-brand">
+          <Icon name={data.icon} class="h-6 w-6" />
+        </span>
+      )}
+      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">{data.title}</h1>
+    </div>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">{data.short_description}</p>
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-[1fr_1fr]">
+      {data.benefits.length > 0 && (
+        <section aria-labelledby="benefits-title">
+          <h2 id="benefits-title" class="text-xl font-bold">What you get</h2>
+          <ul class="mt-4 space-y-3">
+            {data.benefits.map((b) => (
+              <li class="flex items-start gap-3 rounded-lg bg-paper-dim p-4 text-sm leading-relaxed">
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {data.process_steps.length > 0 && (
+        <section aria-labelledby="process-title">
+          <h2 id="process-title" class="text-xl font-bold">How it runs</h2>
+          <ol class="mt-4 space-y-5 border-l-2 border-brand-wash pl-6">
+            {data.process_steps.map((step, i) => (
+              <li class="relative">
+                <span
+                  class="absolute -left-[31px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white"
+                  aria-hidden="true"
+                >
+                  {i + 1}
+                </span>
+                <h3 class="font-display font-bold">{step.title}</h3>
+                <p class="mt-1 text-sm leading-relaxed text-ink-soft">{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+    </div>
+
+    <section class="prose-grint mt-12 max-w-none">
+      <Content />
+    </section>
+  </article>
+
+  <CtaBand title={data.cta_text} body="One short call is usually enough to tell whether this is the right path." ctaText={data.cta_text} />
+</BaseLayout>

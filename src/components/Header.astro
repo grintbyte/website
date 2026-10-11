@@ -1,0 +1,221 @@
+---
+import { withBase } from "../lib/paths";
+import { CATEGORIES } from "../lib/categories";
+import Icon from "./Icon.astro";
+import { getCollection } from "astro:content";
+
+const solutions = (await getCollection("solutions")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const logo = withBase("/images/brand/grintbyte-logo.png");
+---
+
+<header class="sticky top-0 z-40 border-b border-brand-wash bg-paper/95 backdrop-blur-sm">
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
+    <a href={withBase("/")} class="flex shrink-0 items-center" aria-label="GrintByte home">
+      <img src={logo} alt="GrintByte" class="h-9 w-auto" width="180" height="81" />
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Main">
+      <a href={withBase("/")} class="rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim">Home</a>
+
+      <div class="relative" data-dropdown>
+        <button
+          type="button"
+          class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim"
+          aria-expanded="false"
+          aria-controls="menu-products"
+        >
+          Products
+          <svg class="h-3.5 w-3.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div
+          id="menu-products"
+          class="absolute left-1/2 top-full hidden w-[34rem] -translate-x-1/2 rounded-xl border border-brand-wash bg-paper p-3 shadow-lg shadow-brand-deep/5"
+        >
+          <ul class="grid grid-cols-2 gap-1">
+            {CATEGORIES.map((c) => (
+              <li>
+                <a href={withBase(`/products/${c.slug}`)} class="flex items-start gap-3 rounded-lg p-3 hover:bg-paper-dim">
+                  <span class="mt-0.5 text-brand"><Icon name={c.icon} class="h-5 w-5" /></span>
+                  <span>
+                    <span class="block text-sm font-semibold">{c.label}</span>
+                    <span class="block text-xs text-ink-soft">{c.blurb}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+            <li class="col-span-2 border-t border-brand-wash pt-1">
+              <a href={withBase("/products")} class="block rounded-lg p-3 text-sm font-semibold text-brand hover:bg-paper-dim">
+                View the full catalog
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="relative" data-dropdown>
+        <button
+          type="button"
+          class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim"
+          aria-expanded="false"
+          aria-controls="menu-solutions"
+        >
+          Solutions
+          <svg class="h-3.5 w-3.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div
+          id="menu-solutions"
+          class="absolute left-1/2 top-full hidden w-72 -translate-x-1/2 rounded-xl border border-brand-wash bg-paper p-3 shadow-lg shadow-brand-deep/5"
+        >
+          <ul class="flex flex-col gap-1">
+            {solutions.map((s) => (
+              <li>
+                <a href={withBase(`/solutions/${s.id}`)} class="flex items-center gap-3 rounded-lg p-3 text-sm font-medium hover:bg-paper-dim">
+                  {s.data.icon && <span class="text-brand"><Icon name={s.data.icon} class="h-5 w-5" /></span>}
+                  {s.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <a href={withBase("/about")} class="rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim">About</a>
+      <a href={withBase("/contact")} class="rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim">Contact</a>
+      <a
+        href={withBase("/contact")}
+        class="brand-gradient ml-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+      >
+        Get in Touch
+      </a>
+    </nav>
+
+    <!-- Mobile hamburger (44px tap target) -->
+    <button
+      type="button"
+      id="nav-toggle"
+      class="flex h-11 w-11 items-center justify-center rounded-lg hover:bg-paper-dim lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Open menu"
+    >
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path data-icon-open d="M4 6h16M4 12h16M4 18h16"/>
+        <path data-icon-close class="hidden" d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <nav id="mobile-nav" class="hidden border-t border-brand-wash bg-paper lg:hidden" aria-label="Main (mobile)">
+    <div class="mx-auto max-w-6xl space-y-1 px-4 py-4">
+      <a href={withBase("/")} class="block rounded-lg px-3 py-3 font-medium hover:bg-paper-dim">Home</a>
+
+      <div data-accordion>
+        <button
+          type="button"
+          class="flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-3 font-medium hover:bg-paper-dim"
+          aria-expanded="false"
+        >
+          Products
+          <svg class="h-4 w-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="hidden pl-3">
+          {CATEGORIES.map((c) => (
+            <li>
+              <a href={withBase(`/products/${c.slug}`)} class="flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm hover:bg-paper-dim">
+                <span class="text-brand"><Icon name={c.icon} class="h-4.5 w-4.5" /></span>
+                {c.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={withBase("/products")} class="flex min-h-11 items-center rounded-lg px-3 py-2.5 text-sm font-semibold text-brand hover:bg-paper-dim">
+              View the full catalog
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div data-accordion>
+        <button
+          type="button"
+          class="flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-3 font-medium hover:bg-paper-dim"
+          aria-expanded="false"
+        >
+          Solutions
+          <svg class="h-4 w-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul class="hidden pl-3">
+          {solutions.map((s) => (
+            <li>
+              <a href={withBase(`/solutions/${s.id}`)} class="flex min-h-11 items-center rounded-lg px-3 py-2.5 text-sm hover:bg-paper-dim">
+                {s.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <a href={withBase("/about")} class="block rounded-lg px-3 py-3 font-medium hover:bg-paper-dim">About</a>
+      <a href={withBase("/contact")} class="block rounded-lg px-3 py-3 font-medium hover:bg-paper-dim">Contact</a>
+      <a href={withBase("/contact")} class="brand-gradient mt-2 block rounded-lg px-4 py-3 text-center font-semibold text-white">
+        Get in Touch
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile drawer toggle
+  const toggle = document.getElementById("nav-toggle")!;
+  const drawer = document.getElementById("mobile-nav")!;
+  toggle.addEventListener("click", () => {
+    const open = drawer.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    toggle.querySelector("[data-icon-open]")!.classList.toggle("hidden", open);
+    toggle.querySelector("[data-icon-close]")!.classList.toggle("hidden", !open);
+  });
+
+  // Mobile accordions
+  document.querySelectorAll("[data-accordion]").forEach((acc) => {
+    const btn = acc.querySelector("button")!;
+    const list = acc.querySelector("ul")!;
+    btn.addEventListener("click", () => {
+      const open = list.classList.toggle("hidden") === false;
+      btn.setAttribute("aria-expanded", String(open));
+      btn.querySelector("svg")!.style.transform = open ? "rotate(180deg)" : "";
+    });
+  });
+
+  // Desktop dropdowns: click to open, Escape and outside-click to close
+  const dropdowns = Array.from(document.querySelectorAll<HTMLElement>("[data-dropdown]"));
+  function closeAll(except?: HTMLElement) {
+    dropdowns.forEach((d) => {
+      if (d === except) return;
+      d.querySelector("button")!.setAttribute("aria-expanded", "false");
+      d.querySelector<HTMLElement>("div[id]")!.classList.add("hidden");
+      d.querySelector<SVGElement>("button svg")!.style.transform = "";
+    });
+  }
+  dropdowns.forEach((d) => {
+    const btn = d.querySelector("button")!;
+    const menu = d.querySelector<HTMLElement>("div[id]")!;
+    btn.addEventListener("click", () => {
+      const willOpen = menu.classList.contains("hidden");
+      closeAll(d);
+      menu.classList.toggle("hidden", !willOpen);
+      btn.setAttribute("aria-expanded", String(willOpen));
+      btn.querySelector("svg")!.style.transform = willOpen ? "rotate(180deg)" : "";
+    });
+  });
+  document.addEventListener("click", (e) => {
+    if (!dropdowns.some((d) => d.contains(e.target as Node))) closeAll();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+</script>

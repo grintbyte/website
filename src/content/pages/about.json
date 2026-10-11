@@ -1,0 +1,20 @@
+{
+  "intro": "GrintByte is a digital products studio. We build software products for the platforms businesses already depend on, and we build custom systems when no product fits.",
+  "story": "GrintByte started from a simple observation: most businesses do not need another platform, they need the platforms they already use to do more. So instead of selling reinvention, we build the missing piece: the WordPress plugin, the Shopify app, the Odoo module, the browser extension, or the standalone platform that connects them all.",
+  "mission": "Make dependable, well-crafted software extensions and platforms accessible to businesses of any size.",
+  "values": [
+    {
+      "title": "Ship what works",
+      "description": "A product is done when it runs reliably in production, not when the demo looks good."
+    },
+    {
+      "title": "Respect the platform",
+      "description": "We follow each ecosystem's conventions: WordPress coding standards, Shopify app requirements, Odoo module structure, so our products upgrade cleanly."
+    },
+    {
+      "title": "Plain words",
+      "description": "Documentation, pricing and limitations stated clearly. No invented claims, no inflated numbers."
+    }
+  ],
+  "team": []
+}

@@ -1,0 +1,13 @@
+{
+  "hero_title": "Software that fits the platforms you already run",
+  "hero_subtitle": "GrintByte is a digital products studio. We design, build and maintain plugins, apps and platforms for WordPress, Shopify, Odoo, Dolibarr, Chrome and the modern AI stack.",
+  "hero_primary_cta": { "text": "Browse the product catalog", "url": "/products" },
+  "hero_secondary_cta": { "text": "Talk to us about a build", "url": "/contact" },
+  "stats": [
+    { "value": "[REAL DATA]", "label": "Replace with a real, verifiable number before enabling this section" }
+  ],
+  "show_stats": false,
+  "show_testimonials": false,
+  "show_featured": true,
+  "show_solutions": true
+}

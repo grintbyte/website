@@ -1,0 +1,38 @@
+---
+import { withBase } from "../lib/paths";
+
+/**
+ * Closing call-to-action band. The navy gradient + stripe motif is the one
+ * "loud" moment per page (ENERGY 2): it reuses the logo sphere's gradient and
+ * stripes as the identity motif. White text over the darkest palette stop
+ * keeps contrast above 7:1 across the whole gradient.
+ */
+interface Props {
+  title?: string;
+  body?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+const {
+  title = "Have a product in mind, or a platform to extend?",
+  body = "Tell us what you run and what is missing. We reply with an honest take on whether we are the right builders for it.",
+  ctaText = "Get in Touch",
+  ctaHref = "/contact",
+} = Astro.props;
+---
+
+<section class="brand-gradient relative overflow-hidden" aria-labelledby="cta-band-title">
+  <div class="stripe-motif absolute inset-0 text-white/6" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+    <h2 id="cta-band-title" class="max-w-2xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+      {title}
+    </h2>
+    <p class="mt-4 max-w-xl text-base leading-relaxed text-white/90">{body}</p>
+    <a
+      href={withBase(ctaHref)}
+      class="mt-8 inline-flex min-h-11 items-center rounded-lg bg-white px-6 py-3 font-semibold text-brand-deep hover:bg-brand-wash"
+    >
+      {ctaText}
+    </a>
+  </div>
+</section>

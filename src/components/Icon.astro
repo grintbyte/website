@@ -1,0 +1,51 @@
+---
+/**
+ * Small custom glyph set, drawn in-house as plain geometric strokes so every
+ * icon shares one voice with the logo's geometry. Each key is chosen for
+ * literal relevance to what it labels (R-04):
+ *   plug      WordPress Plugins (a plug extends a socket, a plugin extends a site)
+ *   bag       Shopify Apps (commerce: a shopping bag)
+ *   nodes     AI Tools / AI Implementation (connected nodes: a model graph)
+ *   boxes     Odoo Apps / ERP (modular boxes: ERP modules)
+ *   layers    Dolibarr Modules (stacked layers: extensions on a core)
+ *   window    Chrome Extensions (a browser window)
+ *   stack     Software Platforms / Tailor-Made (a full stack, base to top)
+ *   code      Custom Development (code brackets)
+ *   blueprint Solution Architecture (ruled drawing frame)
+ *   cart      eCommerce Integration (a cart on rails)
+ */
+interface Props {
+  name: string;
+  class?: string;
+}
+const { name, class: className = "h-6 w-6" } = Astro.props;
+
+const glyphs: Record<string, string> = {
+  plug: `<path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8ZM12 16v5"/>`,
+  bag: `<path d="M6 8h12l-1 12H7L6 8ZM9 8V6a3 3 0 0 1 6 0v2"/>`,
+  nodes: `<circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="8" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.8 7.2 11 16M16.2 9.5 13 16.2M8.2 6.4l7.6 1.2"/>`,
+  boxes: `<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="8.5" y="13" width="7" height="7" rx="1"/>`,
+  layers: `<path d="m12 4 8 4-8 4-8-4 8-4ZM4 12.5l8 4 8-4M4 16.5l8 4 8-4"/>`,
+  window: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M6.5 7h.01M9.5 7h.01"/>`,
+  stack: `<rect x="5" y="15" width="14" height="4" rx="1"/><rect x="6.5" y="10" width="11" height="4" rx="1"/><rect x="8" y="5" width="8" height="4" rx="1"/>`,
+  code: `<path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/>`,
+  blueprint: `<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9h5v6H4M9 12h11M15 4v5M15 15v5"/>`,
+  cart: `<path d="M3 5h2l2.2 11h11.3l2-8H6.2"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/>`,
+};
+
+const glyph = glyphs[name];
+---
+
+{glyph && (
+  <svg
+    class={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    set:html={glyph}
+  />
+)}

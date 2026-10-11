@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+ * GrintByte design tokens.
+ * Colors are sampled from the logo files themselves:
+ *   brand       #2e39b1  fill of grintbyte-thumb.svg ("GRINT" blue)
+ *   brand-deep  #1d2688  fill of grintbyte_logotext2.svg (navy)
+ *   brand-light #4a56d8  lightest stripe of the logo sphere
+ *   ink         #2d2d2d  "BYTE" dark grey
+ * See DESIGN.md for the full direction and dial settings.
+ */
+@theme {
+  --color-brand-light: #4a56d8;
+  --color-brand: #2e39b1;
+  --color-brand-deep: #1d2688;
+  --color-brand-night: #141b5e;
+  --color-brand-wash: #eef0fb;
+  --color-ink: #2d2d2d;
+  --color-ink-soft: #52525b;
+  --color-paper: #ffffff;
+  --color-paper-dim: #f7f8fc;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* keep anchored sections clear of the sticky header */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem; /* 16px minimum body size */
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Single visible focus style everywhere (keyboard navigation, R-32) */
+:focus-visible {
+  outline: 3px solid var(--color-brand-light);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* The brand gradient: the one deliberate accent, reserved for primary CTAs,
+   one hero accent and the closing band. Mirrors the logo sphere's stripes. */
+.brand-gradient {
+  background-image: linear-gradient(120deg, var(--color-brand-light), var(--color-brand) 55%, var(--color-brand-deep));
+}
+.brand-gradient-text {
+  background-image: linear-gradient(120deg, var(--color-brand-light), var(--color-brand-deep));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Identity motif: the diagonal stripes of the logo sphere, as a subtle
+   repeating background used in the hero and the closing CTA band. */
+.stripe-motif {
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0px,
+    transparent 56px,
+    currentColor 56px,
+    currentColor 60px
+  );
+}
+
+/* Minimal typography for CMS markdown bodies (no plugin needed) */
+.prose-grint {
+  color: var(--color-ink-soft);
+  line-height: 1.75;
+}
+.prose-grint p + p {
+  margin-top: 1em;
+}
+.prose-grint h2, .prose-grint h3 {
+  color: var(--color-ink);
+  font-weight: 700;
+  margin: 1.5em 0 0.5em;
+}
+.prose-grint h2 { font-size: 1.25rem; }
+.prose-grint h3 { font-size: 1.1rem; }
+.prose-grint ul, .prose-grint ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+.prose-grint ul { list-style: disc; }
+.prose-grint ol { list-style: decimal; }
+.prose-grint a {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
+.prose-grint code {
+  background: var(--color-brand-wash);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}

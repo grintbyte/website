@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Icon from "../../components/Icon.astro";
+import { withBase } from "../../lib/paths";
+
+const solutions = (await getCollection("solutions")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Solutions"
+  description="GrintByte services: AI implementation, custom development, solution architecture, ERP implementation, eCommerce integration and tailor-made platforms."
+>
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Solutions</h1>
+    <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-soft">
+      Our products come out of this work. When no product fits the problem, these are the six ways we build the answer.
+    </p>
+
+    <div class="mt-10 grid gap-4 md:grid-cols-2">
+      {solutions.map((s, i) => (
+        <a
+          href={withBase(`/solutions/${s.id}`)}
+          class={`group rounded-xl border border-brand-wash p-6 transition-colors hover:border-brand/40 hover:bg-paper-dim ${i === 0 ? "md:col-span-2" : ""}`}
+        >
+          <div class="flex items-start gap-4">
+            {s.data.icon && (
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-wash text-brand">
+                <Icon name={s.data.icon} class="h-6 w-6" />
+              </span>
+            )}
+            <div>
+              <h2 class="font-display text-lg font-bold group-hover:text-brand">{s.data.title}</h2>
+              <p class={`mt-2 text-sm leading-relaxed text-ink-soft ${i === 0 ? "max-w-2xl" : ""}`}>
+                {s.data.short_description}
+              </p>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand
+    title="Not sure which of these you need?"
+    body="Describe the problem in plain words. We will tell you which approach fits, or whether an existing product already covers it."
+  />
+</BaseLayout>
