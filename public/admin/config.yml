@@ -183,6 +183,15 @@ collections:
           - { name: address, label: Address, widget: text, required: false }
           - { name: working_hours, label: Working hours, widget: string, required: false }
           - { name: form_action_url, label: "Form endpoint URL (Web3Forms/Formspree)", widget: string, required: false, hint: "Leave empty to hide the form and show the email fallback." }
+          - name: emailjs
+            label: "EmailJS (enquiry form with auto-response)"
+            widget: object
+            required: false
+            fields:
+              - { name: public_key, label: Public key, widget: string, required: false }
+              - { name: service_id, label: Service ID, widget: string, required: false }
+              - { name: template_notify, label: "Template ID: notification to the team", widget: string, required: false }
+              - { name: template_autoreply, label: "Template ID: auto-reply to the client", widget: string, required: false }
 
   - name: settings
     label: Site settings

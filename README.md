@@ -139,11 +139,42 @@ checkout: create the product in your Lemon Squeezy store, copy its *Share →
 Checkout link*, and paste it into Buy URL. No code change needed; when
 `buy_url` is set it becomes the primary button on the product page.
 
-## Solution enquiry
+## Solution enquiry (with auto-response)
 
 `/solutions/enquiry` holds the enquiry form; each solution's closing CTA links
-to it with the solution preselected. Destination address is **Pages → Contact →
-Solution enquiry email** (currently `grintbyte@gmail.com`). While no form
-endpoint is configured, submitting composes an email in the visitor's mail app
-(mailto); once `form_action_url` is set (Web3Forms/Formspree, registered for
-the enquiry address), the same form posts there directly.
+to it with the solution preselected. It has three send modes, picked
+automatically from **Pages → Contact** in the CMS:
+
+1. **EmailJS configured** (recommended, free): sends a notification to the
+   enquiry address AND an auto-reply to the client from the connected mailbox
+   (team@grintbyte.com). Setup below.
+2. **Only `form_action_url` set** (Web3Forms/Formspree): notification only.
+   Note: Web3Forms' own autoresponder is a paid (Pro) feature.
+3. **Nothing configured**: the button composes a pre-filled email in the
+   visitor's mail app, addressed to the enquiry address. Works with no server.
+
+### EmailJS setup (free plan: 200 requests/month, 2 templates — enough)
+
+Each enquiry uses 2 requests (notify + auto-reply), so the free plan covers
+about 100 enquiries per month.
+
+1. **Make team@grintbyte.com able to send.** Cheapest free route if the domain
+   has no mailbox yet: Cloudflare Email Routing (receive, forwards to
+   grintbyte@gmail.com) + Gmail "Send mail as" alias for team@grintbyte.com
+   (Gmail Settings → Accounts → Send mail as, verify the alias; create a Gmail
+   App Password for SMTP).
+2. **Create an EmailJS account** (emailjs.com) → Email Services → add
+   *Custom SMTP*: `smtp.gmail.com`, port 465, user `grintbyte@gmail.com`,
+   the App Password, and set the From address to `team@grintbyte.com`
+   (must be a verified Gmail alias or Gmail rewrites it).
+3. **Create 2 templates:**
+   - *Notification* — To: `grintbyte@gmail.com`, Subject:
+     `Solution enquiry: {{solution}}`, Body: `{{summary}}`,
+     Reply-To: `{{email}}`.
+   - *Auto-reply* — To: `{{email}}`, Subject: `We received your enquiry`,
+     Body: thank-you text + `{{summary}}`, From name: GrintByte.
+4. **Restrict the key**: EmailJS dashboard → Account → Security → allowlist
+   your site's domain, so the public key only works from your pages.
+5. Fill **Pages → Contact → EmailJS** in the CMS: public key, service ID and
+   both template IDs. The public key is safe to publish; it can only send
+   your two predefined templates from allowed domains.

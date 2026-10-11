@@ -6,7 +6,20 @@ import { withBase } from "../../lib/paths";
 const solutions = (await getCollection("solutions")).sort((a, b) => a.data.order - b.data.order);
 const contact = (await getEntry("contact", "contact"))!.data;
 const enquiryEmail = contact.enquiry_email || contact.email;
-const formConfigured = Boolean(contact.form_action_url);
+// Send modes, in order of preference:
+// 1. EmailJS: notification to the team AND an auto-reply to the client,
+//    both sent through the mailbox connected in EmailJS (team@grintbyte.com).
+// 2. Plain form endpoint (Web3Forms/Formspree): notification only.
+// 3. Neither configured: compose a pre-filled mailto in the visitor's mail app.
+const ej = contact.emailjs;
+const emailjs = {
+  publicKey: ej?.public_key ?? "",
+  serviceId: ej?.service_id ?? "",
+  templateNotify: ej?.template_notify ?? "",
+  templateAutoreply: ej?.template_autoreply ?? "",
+};
+const emailjsConfigured = Boolean(emailjs.publicKey && emailjs.serviceId && emailjs.templateNotify);
+const formConfigured = emailjsConfigured || Boolean(contact.form_action_url);
 ---
 
 <BaseLayout
@@ -89,7 +102,7 @@ const formConfigured = Boolean(contact.form_action_url);
   </section>
 </BaseLayout>
 
-<script define:vars={{ formConfigured, enquiryEmail }}>
+<script define:vars={{ formConfigured, emailjsConfigured, emailjs, enquiryEmail }}>
   const form = document.getElementById("enquiry-form");
   const select = document.getElementById("eq-solution");
   const feedback = document.getElementById("eq-feedback");
@@ -136,11 +149,44 @@ const formConfigured = Boolean(contact.form_action_url);
     submit.disabled = true;
     submit.textContent = "Sending…";
     try {
-      data.append("subject", `Solution enquiry: ${data.get("solution")}`);
-      const res = await fetch(form.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
-      if (!res.ok) throw new Error(String(res.status));
-      form.reset();
-      show("success", "Enquiry sent. We will reply within one working day.");
+      if (emailjsConfigured) {
+        const params = {
+          name: data.get("name"),
+          email: data.get("email"),
+          company: data.get("company") || "-",
+          solution: data.get("solution"),
+          message: data.get("message"),
+          summary,
+        };
+        const send = (templateId) =>
+          fetch("https://api.emailjs.com/api/v1.0/email/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              service_id: emailjs.serviceId,
+              template_id: templateId,
+              user_id: emailjs.publicKey,
+              template_params: params,
+            }),
+          }).then((res) => { if (!res.ok) throw new Error(String(res.status)); });
+
+        await send(emailjs.templateNotify);
+        let autoReplied = false;
+        if (emailjs.templateAutoreply) {
+          // Best effort: a failed auto-reply must not fail the enquiry itself.
+          autoReplied = await send(emailjs.templateAutoreply).then(() => true, () => false);
+        }
+        form.reset();
+        show("success", autoReplied
+          ? "Enquiry sent. A confirmation email is on its way to you, and we reply within one working day."
+          : "Enquiry sent. We will reply within one working day.");
+      } else {
+        data.append("subject", `Solution enquiry: ${data.get("solution")}`);
+        const res = await fetch(form.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show("success", "Enquiry sent. We will reply within one working day.");
+      }
     } catch {
       show("error", "Sending failed. Please email us directly at " + enquiryEmail + ".");
     } finally {

@@ -1,8 +1,14 @@
 {
-  "email": "hello@grintbyte.com",
+  "email": "grintbyte@gmail.com",
   "whatsapp": "",
   "address": "",
   "working_hours": "Monday to Friday, 09.00 to 17.00 (GMT+7)",
   "form_action_url": "",
-  "enquiry_email": "grintbyte@gmail.com"
+  "enquiry_email": "grintbyte@gmail.com",
+  "emailjs": {
+    "public_key": "",
+    "service_id": "",
+    "template_notify": "",
+    "template_autoreply": ""
+  }
 }
