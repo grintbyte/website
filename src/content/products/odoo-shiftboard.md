@@ -11,7 +11,8 @@ features:
   - "Works with Odoo Attendances kiosk mode"
 version: "17.0.1.2"
 compatibility: "Odoo 17 Community & Enterprise"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

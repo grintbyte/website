@@ -11,7 +11,8 @@ features:
   - "GDPR-aware data retention rules"
 version: "1.4.0"
 compatibility: "WordPress 6.x, PHP 8.1+"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
 ---

@@ -11,7 +11,8 @@ features:
   - "Dry-run mode that reports changes before applying them"
 version: "1.3.0"
 compatibility: "Dolibarr 18-20"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

@@ -11,7 +11,8 @@ features:
   - "Media library sync with deduplication"
 version: "2.1.3"
 compatibility: "WordPress 6.x, PHP 8.1+"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

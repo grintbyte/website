@@ -10,7 +10,8 @@ features:
   - "No account, no tracking, works offline"
 version: "1.6.0"
 compatibility: "Chrome 120+, Edge, Brave"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
 ---

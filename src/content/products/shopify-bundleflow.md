@@ -11,7 +11,8 @@ features:
   - "Bundle analytics per campaign"
 version: "1.2.1"
 compatibility: "Shopify, Online Store 2.0 themes"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

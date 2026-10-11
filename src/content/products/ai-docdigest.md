@@ -11,7 +11,8 @@ features:
   - "Bring-your-own API key: your data, your account"
 version: "0.9.2"
 compatibility: "Claude and OpenAI-compatible APIs"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
 ---

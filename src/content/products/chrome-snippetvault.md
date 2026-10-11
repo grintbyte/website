@@ -11,7 +11,8 @@ features:
   - "Optional encrypted sync between browsers"
 version: "2.0.2"
 compatibility: "Chrome 120+, Edge, Brave"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

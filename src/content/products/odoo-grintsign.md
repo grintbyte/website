@@ -11,7 +11,8 @@ features:
   - "Email and portal signing for external parties"
 version: "17.0.0.9"
 compatibility: "Odoo 17 Community & Enterprise"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
 ---

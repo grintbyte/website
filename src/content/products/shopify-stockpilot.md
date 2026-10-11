@@ -11,7 +11,8 @@ features:
   - "Slack and email notification channels"
 version: "1.8.0"
 compatibility: "Shopify, all plans"
-links: {}
+links:
+  buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
 ---
