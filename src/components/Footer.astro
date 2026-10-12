@@ -4,11 +4,17 @@ import { CATEGORIES } from "../lib/categories";
 import { getCollection, getEntry } from "astro:content";
 
 const settings = (await getEntry("settings", "site"))!.data;
-const contact = (await getEntry("contact", "contact"))!.data;
 const solutions = (await getCollection("solutions")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const year = new Date().getFullYear();
+
+// Standard simplified brand marks for the social circles (nominative use).
+const socialGlyphs: Record<string, string> = {
+  LinkedIn: `<path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98ZM3 9.25h3.96V21H3V9.25Zm6.56 0h3.8v1.6h.05c.53-.95 1.82-1.96 3.75-1.96 4.01 0 4.75 2.56 4.75 5.88V21h-3.96v-5.5c0-1.31-.02-3-1.88-3-1.89 0-2.18 1.43-2.18 2.9V21H9.56V9.25Z"/>`,
+  Instagram: `<path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.72 3.72 0 0 1-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.15 0-3.5.01-4.73.07-1.08.05-1.51.22-1.87.36-.44.17-.74.37-1.06.69-.32.32-.52.62-.69 1.06-.14.36-.31.8-.36 1.87-.06 1.23-.07 1.58-.07 4.73s.01 3.5.07 4.73c.05 1.08.22 1.51.36 1.87.17.44.37.74.69 1.06.32.32.62.52 1.06.69.36.14.8.31 1.87.36 1.23.06 1.58.07 4.73.07s3.5-.01 4.73-.07c1.08-.05 1.51-.22 1.87-.36.44-.17.74-.37 1.06-.69.32-.32.52-.62.69-1.06.14-.36.31-.8.36-1.87.06-1.23.07-1.58.07-4.73s-.01-3.5-.07-4.73c-.05-1.08-.22-1.51-.36-1.87a2.6 2.6 0 0 0-.69-1.06 2.6 2.6 0 0 0-1.06-.69c-.36-.14-.8-.31-1.87-.36-1.23-.06-1.58-.07-4.73-.07Zm0 3.06a4.94 4.94 0 1 1 0 9.88 4.94 4.94 0 0 1 0-9.88Zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28Zm5.15-2.95a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/>`,
+  YouTube: `<path d="M23 7.2s-.22-1.55-.9-2.23c-.85-.9-1.8-.9-2.24-.95C16.74 3.8 12 3.8 12 3.8h-.01s-4.73 0-7.85.22c-.44.05-1.39.05-2.24.95C1.22 5.65 1 7.2 1 7.2S.78 9.02.78 10.84v1.7c0 1.82.22 3.64.22 3.64s.22 1.55.9 2.23c.85.9 1.97.87 2.47.96 1.8.17 7.63.22 7.63.22s4.74-.01 7.86-.23c.44-.05 1.39-.06 2.24-.96.68-.68.9-2.23.9-2.23s.22-1.81.22-3.63v-1.7C23.22 9.02 23 7.2 23 7.2ZM9.7 14.6V8.97l6.04 2.82L9.7 14.6Z"/>`,
+};
 ---
 
 <!-- Light footer by design: the only white wordmark asset does not exist yet
@@ -26,15 +32,21 @@ const year = new Date().getFullYear();
         loading="lazy"
       />
       <p class="mt-4 max-w-sm text-sm leading-relaxed text-ink-soft">{settings.footer_text}</p>
-      <p class="mt-4 text-sm">
-        <a href={`mailto:${contact.email}`} class="font-medium text-brand hover:underline">{contact.email}</a>
-      </p>
       {settings.social_links.length > 0 && (
-        <ul class="mt-4 flex gap-4">
+        <ul class="mt-5 flex gap-3">
           {settings.social_links.map((s) => (
             <li>
-              <a href={s.url} class="text-sm font-medium text-brand hover:underline" rel="noopener">
-                {s.label}
+              <a
+                href={s.url}
+                rel="noopener"
+                aria-label={`GrintByte on ${s.label}`}
+                class="flex h-11 w-11 items-center justify-center rounded-full border border-brand/25 text-brand transition-colors hover:border-brand hover:bg-brand-wash"
+              >
+                {socialGlyphs[s.label] ? (
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={socialGlyphs[s.label]} />
+                ) : (
+                  <span class="text-xs font-semibold">{s.label}</span>
+                )}
               </a>
             </li>
           ))}
@@ -65,12 +77,6 @@ const year = new Date().getFullYear();
             </a>
           </li>
         ))}
-        <li class="pt-2">
-          <a href={withBase("/about")} class="text-sm text-ink-soft hover:text-brand hover:underline">About GrintByte</a>
-        </li>
-        <li>
-          <a href={withBase("/contact")} class="text-sm text-ink-soft hover:text-brand hover:underline">Contact</a>
-        </li>
       </ul>
     </nav>
   </div>
