@@ -76,7 +76,7 @@ const logo = withBase("/images/brand/grintbyte-logo.png");
         </div>
       </div>
 
-      <div class="relative" data-dropdown>
+      <div data-dropdown>
         <button
           type="button"
           class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim"
@@ -88,18 +88,39 @@ const logo = withBase("/images/brand/grintbyte-logo.png");
         </button>
         <div
           id="menu-solutions"
-          class="absolute left-1/2 top-full hidden w-72 -translate-x-1/2 rounded-xl border border-brand-wash bg-paper p-3 shadow-lg shadow-brand-deep/5"
+          class="absolute inset-x-0 top-full hidden border-b border-brand-wash bg-paper shadow-lg shadow-brand-deep/8"
         >
-          <ul class="flex flex-col gap-1">
-            {solutions.map((s) => (
-              <li>
-                <a href={withBase(`/solutions/${s.id}`)} class="flex items-center gap-3 rounded-lg p-3 text-sm font-medium hover:bg-paper-dim">
-                  {s.data.icon && <span class="text-brand"><Icon name={s.data.icon} class="h-5 w-5" /></span>}
-                  {s.data.title}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div class="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[1fr_16rem]">
+            <ul class="grid grid-cols-2 gap-x-6 gap-y-1 xl:grid-cols-3">
+              {solutions.map((s) => (
+                <li>
+                  <a href={withBase(`/solutions/${s.id}`)} class="group flex items-start gap-3 rounded-lg p-3 hover:bg-paper-dim">
+                    {s.data.icon && (
+                      <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-wash text-brand">
+                        <Icon name={s.data.icon} class="h-5 w-5" />
+                      </span>
+                    )}
+                    <span>
+                      <span class="block text-sm font-semibold group-hover:text-brand">{s.data.title}</span>
+                      <span class="mt-0.5 block text-xs leading-snug text-ink-soft">{s.data.short_description}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div class="border-t border-brand-wash pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+              <p class="font-display text-sm font-bold">Not sure which fits?</p>
+              <p class="mt-2 text-xs leading-relaxed text-ink-soft">
+                Describe the problem and we point you to the right approach.
+              </p>
+              <a
+                href={withBase("/solutions/enquiry")}
+                class="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-4 py-2 text-sm font-semibold text-brand hover:bg-brand-wash"
+              >
+                Start an enquiry
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
