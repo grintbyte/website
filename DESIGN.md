@@ -10,11 +10,13 @@ of this direction; this file records it so every future UI change starts here.
   typography, product icons prominent. Content-structure reference: yithemes.com
   (catalog cards, clear categories, complete product detail pages). Visual
   reference: fasterapps.com.
-- **Dial**: ENERGY 2 / RHYTHM 2 / MOTION 1.
+- **Dial**: ENERGY 2 / RHYTHM 2 / MOTION 2.
   - ENERGY 2: Stripe/Vercel-level confidence, not an agency showpiece.
   - RHYTHM 2: consistent section grid with one deliberate break per page
     (e.g. the numbered solutions list between two card grids on Home).
-  - MOTION 1: hover and focus states only. No scroll choreography.
+  - MOTION 2 (raised from 1 on 2026-10-12, owner supplied animated-hero
+    mockups): entrance reveals, gentle float/orbit in the hero, hover states.
+    All motion is disabled under prefers-reduced-motion. No parallax/pinning.
 
 ## Palette (sampled from the logo files)
 
