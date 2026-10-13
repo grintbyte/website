@@ -1,17 +1,11 @@
 ---
-import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const contact = (await getEntry("contact", "contact"))!.data;
-const formConfigured = Boolean(contact.form_action_url);
-const whatsappHref = contact.whatsapp
-  ? `https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`
-  : null;
+import EnquiryForm from "../components/EnquiryForm.astro";
 ---
 
 <BaseLayout
-  title="Contact"
-  description="Get in touch with GrintByte about products, custom builds or partnerships."
+  title="Get in Touch"
+  description="Tell GrintByte what you need: a product question, a custom build, or a platform you want extended."
 >
   <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
     <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Get in touch</h1>
@@ -19,127 +13,8 @@ const whatsappHref = contact.whatsapp
       A product question, a custom build, or a platform you want extended: tell us about it.
       We answer every message within one working day.
     </p>
-
-    <div class="mt-10 grid gap-10 lg:grid-cols-[2fr_1fr]">
-      <div>
-        <!--
-          Validation / result messages (R-27: error + success states)
-        -->
-        <!--
-          Honest unconfigured state (R-26): no dead form. The static site
-          needs a third-party form endpoint (Web3Forms/Formspree); until
-          form_action_url is set in the CMS, email is the working path.
-        -->
-        {formConfigured ? (
-          <form id="contact-form" action={contact.form_action_url} method="POST" novalidate>
-            <div class="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label for="cf-name" class="block text-sm font-semibold">Your name</label>
-                <input id="cf-name" name="name" type="text" required autocomplete="name"
-                  class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand" />
-              </div>
-              <div>
-                <label for="cf-email" class="block text-sm font-semibold">Email</label>
-                <input id="cf-email" name="email" type="email" required autocomplete="email"
-                  class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand" />
-              </div>
-              <div class="sm:col-span-2">
-                <label for="cf-message" class="block text-sm font-semibold">What do you need?</label>
-                <textarea id="cf-message" name="message" required rows="6"
-                  class="mt-1.5 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand"></textarea>
-              </div>
-            </div>
-            <p id="form-feedback" class="mt-4 hidden rounded-lg px-4 py-3 text-sm" role="status"></p>
-            <button type="submit" id="form-submit"
-              class="brand-gradient mt-6 inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
-              Send message
-            </button>
-          </form>
-        ) : (
-          <div class="rounded-xl border border-dashed border-brand/40 bg-paper-dim p-8">
-            <h2 class="font-display text-lg font-bold">Contact form not configured yet</h2>
-            <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
-              This site is static, so the form needs a form endpoint (Web3Forms or Formspree).
-              Set <code class="rounded bg-brand-wash px-1.5 py-0.5 text-xs">form_action_url</code> in
-              the CMS under Pages &gt; Contact to enable it. Until then, email works:
-            </p>
-            <a href={`mailto:${contact.email}`}
-              class="brand-gradient mt-5 inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
-              Email {contact.email}
-            </a>
-          </div>
-        )}
-      </div>
-
-      <aside class="h-fit space-y-6 rounded-xl border border-brand-wash bg-paper-dim p-6">
-        <div>
-          <h2 class="text-sm font-bold uppercase tracking-wide text-ink-soft">Email</h2>
-          <a href={`mailto:${contact.email}`} class="mt-1 block font-medium text-brand hover:underline">
-            {contact.email}
-          </a>
-        </div>
-        {whatsappHref && (
-          <div>
-            <h2 class="text-sm font-bold uppercase tracking-wide text-ink-soft">WhatsApp</h2>
-            <a href={whatsappHref} rel="noopener" class="mt-1 block font-medium text-brand hover:underline">
-              {contact.whatsapp}
-            </a>
-          </div>
-        )}
-        {contact.address && (
-          <div>
-            <h2 class="text-sm font-bold uppercase tracking-wide text-ink-soft">Address</h2>
-            <p class="mt-1 text-sm leading-relaxed">{contact.address}</p>
-          </div>
-        )}
-        {contact.working_hours && (
-          <div>
-            <h2 class="text-sm font-bold uppercase tracking-wide text-ink-soft">Working hours</h2>
-            <p class="mt-1 text-sm leading-relaxed">{contact.working_hours}</p>
-          </div>
-        )}
-      </aside>
+    <div class="mt-10 max-w-3xl">
+      <EnquiryForm />
     </div>
   </section>
 </BaseLayout>
-
-{formConfigured && (
-  <script>
-    const form = document.getElementById("contact-form") as HTMLFormElement;
-    const feedback = document.getElementById("form-feedback")!;
-    const submit = document.getElementById("form-submit") as HTMLButtonElement;
-
-    function show(kind: "error" | "success", msg: string) {
-      feedback.textContent = msg;
-      feedback.classList.remove("hidden", "bg-red-50", "text-red-800", "bg-brand-wash", "text-brand-deep");
-      feedback.classList.add(
-        ...(kind === "error" ? ["bg-red-50", "text-red-800"] : ["bg-brand-wash", "text-brand-deep"]),
-      );
-    }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        show("error", "Please fill in your name, a valid email address and a message.");
-        return;
-      }
-      submit.disabled = true;
-      submit.textContent = "Sending…";
-      try {
-        const res = await fetch(form.action, {
-          method: "POST",
-          body: new FormData(form),
-          headers: { Accept: "application/json" },
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        form.reset();
-        show("success", "Message sent. We will reply within one working day.");
-      } catch {
-        show("error", "Sending failed. Please email us directly instead.");
-      } finally {
-        submit.disabled = false;
-        submit.textContent = "Send message";
-      }
-    });
-  </script>
-)}

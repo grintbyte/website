@@ -141,8 +141,8 @@ Checkout link*, and paste it into Buy URL. No code change needed; when
 
 ## Solution enquiry (with auto-response)
 
-`/solutions/enquiry` holds the enquiry form; each solution's closing CTA links
-to it with the solution preselected. It has three send modes, picked
+The enquiry form lives on `/contact` (the Get in Touch page); each solution's
+closing CTA links to it with the solution preselected via `?solution=<slug>`. It has three send modes, picked
 automatically from **Pages → Contact** in the CMS:
 
 1. **EmailJS configured** (recommended, free): sends a notification to the

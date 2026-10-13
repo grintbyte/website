@@ -1,0 +1,167 @@
+---
+import { getCollection, getEntry } from "astro:content";
+
+/**
+ * The enquiry form on /contact (the Get in Touch page).
+ * Send modes, in order of preference:
+ * 1. EmailJS: notification to the team AND an auto-reply to the client,
+ *    both sent through the mailbox connected in EmailJS (team@grintbyte.com).
+ * 2. Plain form endpoint (Web3Forms/Formspree): notification only.
+ * 3. Neither configured: compose a pre-filled mailto in the visitor's mail app.
+ * ?solution=<slug> in the URL preselects a solution.
+ */
+const solutions = (await getCollection("solutions")).sort((a, b) => a.data.order - b.data.order);
+const contact = (await getEntry("contact", "contact"))!.data;
+const enquiryEmail = contact.enquiry_email || contact.email;
+const ej = contact.emailjs;
+const emailjs = {
+  publicKey: ej?.public_key ?? "",
+  serviceId: ej?.service_id ?? "",
+  templateNotify: ej?.template_notify ?? "",
+  templateAutoreply: ej?.template_autoreply ?? "",
+};
+const emailjsConfigured = Boolean(emailjs.publicKey && emailjs.serviceId && emailjs.templateNotify);
+const formConfigured = emailjsConfigured || Boolean(contact.form_action_url);
+---
+
+<form id="enquiry-form" action={contact.form_action_url || undefined} method="POST" novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="eq-name" class="block text-sm font-semibold">Your name</label>
+      <input id="eq-name" name="name" type="text" required autocomplete="name"
+        class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand" />
+    </div>
+    <div>
+      <label for="eq-email" class="block text-sm font-semibold">Email</label>
+      <input id="eq-email" name="email" type="email" required autocomplete="email"
+        class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand" />
+    </div>
+    <div>
+      <label for="eq-company" class="block text-sm font-semibold">Company <span class="font-normal text-ink-soft">(optional)</span></label>
+      <input id="eq-company" name="company" type="text" autocomplete="organization"
+        class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm focus:border-brand" />
+    </div>
+    <div>
+      <label for="eq-solution" class="block text-sm font-semibold">Which solution?</label>
+      <select id="eq-solution" name="solution"
+        class="mt-1.5 min-h-11 w-full rounded-lg border border-brand-wash bg-paper px-4 py-2.5 text-sm focus:border-brand">
+        <option value="Not sure yet">Not sure yet</option>
+        {solutions.map((s) => (
+          <option value={s.data.title} data-slug={s.id}>{s.data.title}</option>
+        ))}
+      </select>
+    </div>
+    <div class="sm:col-span-2">
+      <label for="eq-message" class="block text-sm font-semibold">What do you need?</label>
+      <textarea id="eq-message" name="message" required rows="7"
+        placeholder="The platform you run, the problem, and what good looks like."
+        class="mt-1.5 w-full rounded-lg border border-brand-wash px-4 py-2.5 text-sm placeholder:text-ink-soft/70 focus:border-brand"></textarea>
+    </div>
+  </div>
+
+  <p id="eq-feedback" class="mt-4 hidden rounded-lg px-4 py-3 text-sm" role="status"></p>
+
+  <button type="submit" id="eq-submit"
+    class="brand-gradient mt-6 inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
+    {formConfigured ? "Send enquiry" : "Compose email enquiry"}
+  </button>
+  {!formConfigured && (
+    <p class="mt-3 text-xs text-ink-soft">
+      Opens your email app with the enquiry pre-filled, addressed to {enquiryEmail}.
+    </p>
+  )}
+</form>
+
+<script define:vars={{ formConfigured, emailjsConfigured, emailjs, enquiryEmail }}>
+  const form = document.getElementById("enquiry-form");
+  const select = document.getElementById("eq-solution");
+  const feedback = document.getElementById("eq-feedback");
+  const submit = document.getElementById("eq-submit");
+
+  // Preselect the solution when arriving from a solution page (?solution=<slug>)
+  const slug = new URLSearchParams(location.search).get("solution");
+  if (slug) {
+    for (const opt of select.options) {
+      if (opt.dataset.slug === slug) { select.value = opt.value; break; }
+    }
+  }
+
+  function show(kind, msg) {
+    feedback.textContent = msg;
+    feedback.classList.remove("hidden", "bg-red-50", "text-red-800", "bg-brand-wash", "text-brand-deep");
+    feedback.classList.add(...(kind === "error" ? ["bg-red-50", "text-red-800"] : ["bg-brand-wash", "text-brand-deep"]));
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      show("error", "Please fill in your name, a valid email address and a message.");
+      return;
+    }
+    const data = new FormData(form);
+    const summary = [
+      `Name: ${data.get("name")}`,
+      `Email: ${data.get("email")}`,
+      data.get("company") ? `Company: ${data.get("company")}` : null,
+      `Solution: ${data.get("solution")}`,
+      "",
+      String(data.get("message")),
+    ].filter((line) => line !== null).join("\n");
+
+    if (!formConfigured) {
+      // No form endpoint configured: hand off to the visitor's email app.
+      const subject = encodeURIComponent(`Solution enquiry: ${data.get("solution")}`);
+      location.href = `mailto:${enquiryEmail}?subject=${subject}&body=${encodeURIComponent(summary)}`;
+      show("success", "Your email app should open with the enquiry pre-filled. If nothing opened, email us directly at " + enquiryEmail + ".");
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = "Sending…";
+    try {
+      if (emailjsConfigured) {
+        const params = {
+          name: data.get("name"),
+          email: data.get("email"),
+          company: data.get("company") || "-",
+          solution: data.get("solution"),
+          message: data.get("message"),
+          summary,
+        };
+        const send = (templateId) =>
+          fetch("https://api.emailjs.com/api/v1.0/email/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              service_id: emailjs.serviceId,
+              template_id: templateId,
+              user_id: emailjs.publicKey,
+              template_params: params,
+            }),
+          }).then((res) => { if (!res.ok) throw new Error(String(res.status)); });
+
+        await send(emailjs.templateNotify);
+        let autoReplied = false;
+        if (emailjs.templateAutoreply) {
+          // Best effort: a failed auto-reply must not fail the enquiry itself.
+          autoReplied = await send(emailjs.templateAutoreply).then(() => true, () => false);
+        }
+        form.reset();
+        show("success", autoReplied
+          ? "Enquiry sent. A confirmation email is on its way to you, and we reply within one working day."
+          : "Enquiry sent. We will reply within one working day.");
+      } else {
+        data.append("subject", `Solution enquiry: ${data.get("solution")}`);
+        const res = await fetch(form.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show("success", "Enquiry sent. We will reply within one working day.");
+      }
+    } catch {
+      show("error", "Sending failed. Please email us directly at " + enquiryEmail + ".");
+    } finally {
+      submit.disabled = false;
+      submit.textContent = "Send enquiry";
+    }
+  });
+</script>
