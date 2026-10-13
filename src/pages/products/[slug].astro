@@ -5,6 +5,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import PricingBadge from "../../components/PricingBadge.astro";
 import CtaBand from "../../components/CtaBand.astro";
+import RevealScript from "../../components/RevealScript.astro";
 import Icon from "../../components/Icon.astro";
 import { withBase } from "../../lib/paths";
 import { CATEGORIES, categoryByLabel, type Category } from "../../lib/categories";
@@ -90,22 +91,86 @@ const productLd = data
         <span aria-hidden="true"> / </span>
         <span aria-current="page">{category.label}</span>
       </nav>
-      <div class="mt-4 flex items-center gap-4">
-        <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-wash text-brand">
-          <Icon name={category.icon} class="h-6 w-6" />
-        </span>
-        <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">{category.label}</h1>
+
+      <!-- Category landing hero (owner mockups, filtered: no eyebrow badge,
+           specific headline instead of buzzwords, real CTAs) -->
+      <div class="mt-8 grid items-center gap-10 lg:grid-cols-[3fr_2fr]">
+        <div>
+          <p class="reveal revealed font-display text-sm font-bold text-brand">{category.label}</p>
+          <h1 class="reveal revealed mt-3 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl" style="--reveal-delay:.1s">
+            {category.tagline}
+          </h1>
+          <p class="reveal revealed mt-5 max-w-xl text-lg leading-relaxed text-ink-soft" style="--reveal-delay:.2s">
+            {category.blurb}
+          </p>
+          <div class="reveal revealed mt-8 flex flex-wrap gap-3" style="--reveal-delay:.3s">
+            <a href="#catalog" class="brand-gradient inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
+              Browse {category.label}
+            </a>
+            <a
+              href={withBase("/solutions/custom-development")}
+              class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash"
+            >
+              Request a custom build
+            </a>
+          </div>
+        </div>
+        <div class="relative mx-auto hidden h-56 w-56 lg:block" aria-hidden="true">
+          <div class="orbit-ring absolute inset-0 rounded-full border border-dashed border-brand/15"></div>
+          <div class="absolute inset-6 rounded-full bg-brand-light/10 blur-xl"></div>
+          <span class="animate-float absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-brand-wash text-brand shadow-md shadow-brand-deep/10">
+            <Icon name={category.icon} class="h-12 w-12" />
+          </span>
+        </div>
       </div>
-      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft">{category.blurb}</p>
 
       <!--
         Empty state (R-27): a category with no products yet
       -->
       {categoryProducts.length > 0 ? (
-        <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categoryProducts.map((p) => (
-            <ProductCard product={p} />
-          ))}
+        <div id="catalog" class="reveal mt-16">
+          <h2 class="text-2xl font-extrabold tracking-tight sm:text-3xl">
+            All {category.label}
+          </h2>
+          <p class="mt-2 text-ink-soft">
+            {categoryProducts.length} {categoryProducts.length === 1 ? "product" : "products"}, built and maintained by us.
+          </p>
+          <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {categoryProducts.map((p) => (
+              <article class="group relative flex flex-col overflow-hidden rounded-xl border border-brand-wash bg-paper transition-shadow hover:shadow-md hover:shadow-brand-deep/8">
+                <!-- Stylized window placeholder, not a fake screenshot: real
+                     shots belong in the product's screenshots field. -->
+                <div class="border-b border-brand-wash bg-paper-dim" aria-hidden="true">
+                  <div class="flex gap-1.5 px-4 pt-3.5">
+                    <span class="h-2 w-2 rounded-full bg-brand/20"></span>
+                    <span class="h-2 w-2 rounded-full bg-brand/20"></span>
+                    <span class="h-2 w-2 rounded-full bg-brand/20"></span>
+                  </div>
+                  <div class="flex h-28 items-center justify-center text-brand">
+                    {p.data.icon ? (
+                      <img src={withBase(p.data.icon)} alt="" class="h-14 w-14 object-contain" width="56" height="56" loading="lazy" />
+                    ) : (
+                      <Icon name={category.icon} class="h-12 w-12" />
+                    )}
+                  </div>
+                </div>
+                <div class="flex flex-1 flex-col p-5">
+                  <div class="flex items-start justify-between gap-3">
+                    <h3 class="text-base font-bold">
+                      <a href={withBase(`/products/${p.id}`)} class="after:absolute after:inset-0 group-hover:text-brand">
+                        {p.data.title}
+                      </a>
+                    </h3>
+                    <PricingBadge pricing_type={p.data.pricing_type} price={p.data.price} />
+                  </div>
+                  <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{p.data.short_description}</p>
+                  <p class="mt-4 text-sm font-semibold text-brand">
+                    {p.data.status === "Coming Soon" ? "Coming soon" : "View details"}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       ) : (
         <div class="mt-10 rounded-xl border border-dashed border-brand-wash px-6 py-16 text-center">
@@ -128,6 +193,7 @@ const productLd = data
       ctaText="Request a custom build"
       ctaHref="/solutions/custom-development"
     />
+    <RevealScript />
   </BaseLayout>
 )}
 

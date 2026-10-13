@@ -1,0 +1,16 @@
+<script>
+  // Reveal .reveal elements as they scroll into view (no-op under
+  // prefers-reduced-motion, where the CSS never hides them).
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("revealed");
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.12 },
+  );
+  document.querySelectorAll(".reveal:not(.revealed)").forEach((el) => io.observe(el));
+</script>
