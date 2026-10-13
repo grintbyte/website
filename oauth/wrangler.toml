@@ -1,6 +1,7 @@
 name = "grintbyte-decap-oauth"
 main = "worker.js"
 compatibility_date = "2026-10-13"
+keep_vars = true # don't wipe dashboard-added vars/secrets on deploy
 
 # Secrets (set with `npx wrangler secret put <NAME>`, never commit values):
 #   GITHUB_CLIENT_ID
