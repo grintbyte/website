@@ -1,0 +1,7 @@
+name = "grintbyte-decap-oauth"
+main = "worker.js"
+compatibility_date = "2026-10-13"
+
+# Secrets (set with `npx wrangler secret put <NAME>`, never commit values):
+#   GITHUB_CLIENT_ID
+#   GITHUB_CLIENT_SECRET

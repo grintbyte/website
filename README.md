@@ -41,29 +41,29 @@ commit the changes like any other edit.
 ### In production (`/admin` on the live site)
 
 Decap's GitHub backend needs an OAuth handshake, and GitHub Pages has no
-server to perform it, so you need **one** of these:
+server to perform it, so a small OAuth proxy Worker lives in `oauth/` and is
+deployed to Cloudflare as
+`https://grintbyte-decap-oauth.grintopsglobal.workers.dev`
+(`config.yml` points its `base_url` there).
 
-**Option A — Sveltia CMS (simplest, no proxy).**
-Sveltia is a drop-in replacement that reads the same `config.yml` and can sign
-in with a GitHub personal access token — no OAuth app, no proxy. Swap the
-script tag in `public/admin/index.html` (the replacement tag is in a comment
-there) and remove the `base_url` line from `config.yml`.
-
-**Option B — Decap + an OAuth proxy (free Cloudflare Worker).**
+Setup (done once; repeat only if the Worker or OAuth App is recreated):
 
 1. Create a **GitHub OAuth App** (GitHub → Settings → Developer settings →
    OAuth Apps → New):
-   - Homepage URL: your site URL.
-   - Authorization callback URL: `https://<your-worker>.workers.dev/callback`.
+   - Homepage URL: `https://grintbyte.com`
+   - Authorization callback URL:
+     `https://grintbyte-decap-oauth.grintopsglobal.workers.dev/callback`
    - Note the Client ID and generate a Client Secret.
-2. Deploy an OAuth proxy Worker. Any maintained Decap OAuth provider works,
-   e.g. [`decap-proxy`](https://github.com/sterlingwes/decap-proxy): clone it,
-   `wrangler deploy`, then set `GITHUB_OAUTH_ID` and `GITHUB_OAUTH_SECRET` as
-   Worker secrets.
-3. In `public/admin/config.yml`, set:
-   - `repo: <owner>/<repo>`
-   - `base_url: https://<your-worker>.workers.dev`
-4. Visit `https://<your-site>/admin/` and log in with GitHub.
+2. Deploy and configure the Worker (needs `wrangler login`):
+   ```sh
+   cd oauth
+   npx wrangler deploy
+   npx wrangler secret put GITHUB_CLIENT_ID      # paste the Client ID
+   npx wrangler secret put GITHUB_CLIENT_SECRET  # paste the Client Secret
+   ```
+   Secrets live only in Cloudflare — never in this repo.
+3. Visit `https://grintbyte.com/admin/` and log in with GitHub. Editors need
+   write access to `grintbyte/website`.
 
 `publish_mode: editorial_workflow` is enabled: CMS edits open pull requests
 with a review step. Delete that line in `config.yml` to publish directly to

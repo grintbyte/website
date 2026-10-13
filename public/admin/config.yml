@@ -9,7 +9,7 @@ backend:
   name: github
   repo: grintbyte/website
   branch: main
-  base_url: https://YOUR-OAUTH-PROXY.workers.dev # <-- replace (not needed for Sveltia)
+  base_url: https://grintbyte-decap-oauth.grintopsglobal.workers.dev # OAuth proxy (oauth/ in this repo)
 
 # Editorial workflow: changes land as pull requests with a review step.
 # Delete (or comment) the next line to publish straight to the branch.
