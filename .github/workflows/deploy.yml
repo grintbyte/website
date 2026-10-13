@@ -18,8 +18,8 @@ env:
   # Scenario 1 - custom domain:   SITE_URL: https://grintbyte.com      BASE_PATH: /
   # Scenario 2 - project page:    SITE_URL: https://<owner>.github.io  BASE_PATH: /<repo>
   # (For scenario 1, also rename public/CNAME.example to public/CNAME with your domain.)
-  SITE_URL: https://grintbyte.github.io
-  BASE_PATH: /website
+  SITE_URL: https://grintbyte.com
+  BASE_PATH: /
 
 jobs:
   build:

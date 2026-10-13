@@ -17,7 +17,7 @@ import tailwindcss from '@tailwindcss/vite';
  * `withBase()` (src/lib/paths.ts), which reads import.meta.env.BASE_URL,
  * so links keep working when BASE_PATH changes.
  */
-const SITE_URL = process.env.SITE_URL ?? 'https://grintbyte.github.io';
+const SITE_URL = process.env.SITE_URL ?? 'https://grintbyte.com';
 const BASE_PATH = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
