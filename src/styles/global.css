@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* Self-hosted variable fonts (latin subset), no render-blocking Google CSS. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("../assets/fonts/inter-var-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("../assets/fonts/plus-jakarta-sans-var-latin.woff2") format("woff2");
+}
+
 /*
  * GrintByte design tokens.
  * Colors are sampled from the logo files themselves:

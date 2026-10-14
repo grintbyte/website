@@ -9,6 +9,7 @@ import RevealScript from "../../components/RevealScript.astro";
 import Icon from "../../components/Icon.astro";
 import { withBase } from "../../lib/paths";
 import { CATEGORIES, categoryByLabel, type Category } from "../../lib/categories";
+import { breadcrumbLd } from "../../lib/seo";
 
 /**
  * One dynamic route serves both URL shapes the site needs:
@@ -81,10 +82,21 @@ const productLd = data
       url: new URL(withBase(`/products/${product!.id}`), Astro.site).toString(),
     }
   : null;
+
+const crumbs = breadcrumbLd(
+  Astro.site,
+  kind === "category"
+    ? [["Products", "/products"], [category!.label, null]]
+    : [
+        ["Products", "/products"],
+        [productCategory!.label, `/products/${productCategory!.slug}`],
+        [data!.title, null],
+      ],
+);
 ---
 
 {kind === "category" && category && (
-  <BaseLayout title={category.label} description={`${category.blurb} The GrintByte ${category.label} catalog.`}>
+  <BaseLayout title={category.label} description={`${category.blurb} The GrintByte ${category.label} catalog.`} jsonLd={[crumbs]}>
     <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
       <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
         <a href={withBase("/products")} class="hover:text-brand hover:underline">Products</a>
@@ -198,7 +210,7 @@ const productLd = data
 )}
 
 {kind === "product" && product && data && (
-  <BaseLayout title={data.title} description={data.short_description} jsonLd={[productLd!]}>
+  <BaseLayout title={data.title} description={data.short_description} jsonLd={[productLd!, crumbs]}>
     <article class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
       <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
         <a href={withBase("/products")} class="hover:text-brand hover:underline">Products</a>

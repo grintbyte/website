@@ -11,7 +11,7 @@ const products = await getCollection("products");
 const countByCategory = Object.fromEntries(
   CATEGORIES.map((c) => [c.slug, products.filter((p) => p.data.category === c.label).length]),
 );
-const logo = withBase("/images/brand/grintbyte-logo.png");
+const logo = withBase("/images/brand/grintbyte-logo-sm.png");
 ---
 
 <header class="sticky top-0 z-40 border-b border-brand-wash bg-paper/95 backdrop-blur-sm">

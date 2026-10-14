@@ -127,6 +127,8 @@ const settings = defineCollection({
       meta_description: z.string(),
       og_image: z.string(),
     }),
+    // Cloudflare Web Analytics site token; empty = no beacon rendered.
+    cloudflare_analytics_token: z.string().default(""),
   }),
 });
 

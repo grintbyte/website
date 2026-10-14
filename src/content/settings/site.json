@@ -1,7 +1,7 @@
 {
   "site_title": "GrintByte",
   "tagline": "Digital Products Studio",
-  "logo": "/images/brand/grintbyte-logo.png",
+  "logo": "/images/brand/grintbyte-logo-sm.png",
   "social_links": [
     {
       "label": "LinkedIn",
@@ -19,6 +19,7 @@
   "footer_text": "GrintByte builds and maintains digital products for the platforms businesses already run on.",
   "seo": {
     "meta_description": "GrintByte is a digital products studio building WordPress plugins, Shopify apps, AI tools, Odoo and Dolibarr modules, Chrome extensions and standalone software platforms.",
-    "og_image": "/images/brand/grintbyte-logo-padded.png"
-  }
+    "og_image": "/images/brand/og-card.png"
+  },
+  "cloudflare_analytics_token": ""
 }

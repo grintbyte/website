@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import Icon from "../../components/Icon.astro";
 import { withBase } from "../../lib/paths";
+import { breadcrumbLd } from "../../lib/seo";
 
 export async function getStaticPaths() {
   const solutions = await getCollection("solutions");
@@ -16,9 +17,13 @@ export async function getStaticPaths() {
 const { solution } = Astro.props;
 const { data } = solution;
 const { Content } = await render(solution);
+const crumbs = breadcrumbLd(Astro.site, [
+  ["Solutions", "/solutions"],
+  [data.title, null],
+]);
 ---
 
-<BaseLayout title={data.title} description={data.short_description}>
+<BaseLayout title={data.title} description={data.short_description} jsonLd={[crumbs]}>
   <article class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
     <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
       <a href={withBase("/solutions")} class="hover:text-brand hover:underline">Solutions</a>

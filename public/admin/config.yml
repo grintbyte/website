@@ -217,3 +217,8 @@ collections:
             fields:
               - { name: meta_description, label: Default meta description, widget: text }
               - { name: og_image, label: Default OG image, widget: image }
+          - name: cloudflare_analytics_token
+            label: Cloudflare Web Analytics token
+            widget: string
+            required: false
+            hint: "Cloudflare dashboard > Analytics & Logs > Web Analytics. Empty = analytics off."

@@ -4,6 +4,8 @@ import { withBase } from "../lib/paths";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
+import interFontUrl from "../assets/fonts/inter-var-latin.woff2?url";
+import displayFontUrl from "../assets/fonts/plus-jakarta-sans-var-latin.woff2?url";
 
 interface Props {
   title: string;
@@ -59,17 +61,21 @@ const organizationLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-    />
+    <link rel="preload" href={interFontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayFontUrl} as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
     {jsonLd.map((ld) => (
       <script type="application/ld+json" set:html={JSON.stringify(ld)} />
     ))}
+
+    {settings.cloudflare_analytics_token && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: settings.cloudflare_analytics_token })}
+      />
+    )}
   </head>
   <body class="flex min-h-screen flex-col">
     <a
