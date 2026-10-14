@@ -5,6 +5,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ProductCard from "../components/ProductCard.astro";
 import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
+import CircuitMotif from "../components/CircuitMotif.astro";
 import { withBase } from "../lib/paths";
 import { CATEGORIES } from "../lib/categories";
 
@@ -39,22 +40,7 @@ const platformLogos: Record<string, { src: string; wordmark?: true }> = {
 -->
 <BaseLayout title={settings.site_title}>
   <section class="relative overflow-hidden">
-    <!-- Circuit-trace motif (owner-directed via hero mockups): echoes the
-         "byte" identity on the hero's left edge. Decorative only. -->
-    <svg
-      class="absolute left-0 top-0 hidden h-full w-56 text-brand/10 md:block"
-      viewBox="0 0 220 600"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      aria-hidden="true"
-      preserveAspectRatio="xMinYMid slice"
-    >
-      <path d="M-20 80h90l40 40v90M-20 190h50l30 30v120l40 40h60M-20 420h110l30-30v-80M-20 520h70l50-50M60 600v-60l30-30" />
-      <circle cx="110" cy="210" r="5" /><circle cx="200" cy="280" r="5" />
-      <circle cx="120" cy="310" r="5" fill="currentColor" /><circle cx="140" cy="440" r="5" />
-      <circle cx="90" cy="600" r="5" /><circle cx="180" cy="470" r="5" fill="currentColor" />
-    </svg>
+    <CircuitMotif />
     <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:py-20 lg:grid-cols-2 lg:py-24">
       <div>
         <p class="reveal revealed font-display text-sm font-bold text-brand">{settings.tagline}</p>

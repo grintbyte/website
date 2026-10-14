@@ -3,13 +3,14 @@
 Company profile + product catalog. Static site built with **Astro**,
 **Tailwind CSS** and **Decap CMS**, deployed to **GitHub Pages**.
 
-> **Sample content notice**: the products, solutions and testimonials in
-> `src/content/` are placeholder seed content demonstrating the structure.
-> The testimonial entries are explicitly labeled as samples, and the
-> testimonials and statistics sections on the home page are **switched off**
-> (`show_testimonials` / `show_stats` in Pages → Home). Replace the samples
-> with real data before turning those sections on. The contact email
-> (`hello@example.com`) is also a placeholder.
+> **Sample content notice**: the products, solutions, projects and
+> testimonials in `src/content/` are placeholder seed content demonstrating
+> the structure. The testimonial entries are explicitly labeled as samples,
+> and the testimonials and statistics sections on the home page are
+> **switched off** (`show_testimonials` / `show_stats` in Pages → Home).
+> The project entries under `src/content/projects/` describe generic
+> engagement shapes, not named client work: replace them with real case
+> studies (and square thumbnails) via CMS → Projects before launch.
 
 ## Install & run locally
 

@@ -52,6 +52,20 @@ const solutions = defineCollection({
   }),
 });
 
+const projects = defineCollection({
+  loader: glob({ base: "./src/content/projects", pattern: "**/*.md" }),
+  schema: z.object({
+    title: z.string(),
+    solution: z.string(), // solution slug this project appears under
+    summary: z.string(),
+    tags: z.array(z.string()).default([]),
+    thumbnail: z.string().optional(),
+    platform: z.string().optional(),
+    year: z.string().optional(),
+    order: z.number().default(99),
+  }),
+});
+
 const testimonials = defineCollection({
   loader: glob({ base: "./src/content/testimonials", pattern: "**/*.md" }),
   schema: z.object({
@@ -135,6 +149,7 @@ const settings = defineCollection({
 export const collections = {
   products,
   solutions,
+  projects,
   testimonials,
   home,
   about,

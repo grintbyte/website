@@ -106,6 +106,32 @@ collections:
       - { name: cta_text, label: CTA text, widget: string, default: "Talk to us about this" }
       - { name: body, label: Long description, widget: markdown, required: false }
 
+  - name: projects
+    label: Projects
+    folder: src/content/projects
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - name: solution
+        label: Solution
+        widget: relation
+        collection: solutions
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+      - { name: summary, label: Summary (shown in the modal), widget: text }
+      - name: tags
+        label: Tags (become the filter buttons)
+        widget: list
+        required: false
+        field: { name: tag, label: Tag, widget: string }
+      - { name: thumbnail, label: Square thumbnail, widget: image, required: false }
+      - { name: platform, label: Platform / stack, widget: string, required: false }
+      - { name: year, label: Year, widget: string, required: false }
+      - { name: order, label: Display order, widget: number, default: 99 }
+
   - name: testimonials
     label: Testimonials
     folder: src/content/testimonials

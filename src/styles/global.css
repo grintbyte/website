@@ -153,4 +153,18 @@ h1, h2, h3, h4 {
   .orbit-ring {
     animation: spin-slow 60s linear infinite;
   }
+  .project-item {
+    transition: opacity 0.2s ease, scale 0.2s ease;
+  }
+  .project-item.is-away {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+/* Project filter buttons (solution pages) */
+.filter-btn.is-active {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #fff;
 }
