@@ -21,6 +21,16 @@ const countByCategory = Object.fromEntries(
 
 // Platforms strip: typographic chips, not redrawn third-party logos (R-23).
 const platforms = ["WordPress", "Shopify", "Odoo", "Dolibarr", "Chrome", "AI APIs"];
+
+// Official platform logos supplied by the owner (nominative use, not redrawn).
+// Wordmark-shaped logos replace the icon box and carry only the type word.
+const platformLogos: Record<string, { src: string; wordmark?: true }> = {
+  "wordpress-plugins": { src: "/images/platforms/wordpress.png" },
+  "shopify-apps": { src: "/images/platforms/shopify.png" },
+  "chrome-extensions": { src: "/images/platforms/chrome.png" },
+  "odoo-apps": { src: "/images/platforms/odoo.png", wordmark: true },
+  "dolibarr-modules": { src: "/images/platforms/dolibarr.png", wordmark: true },
+};
 ---
 
 <!--
@@ -92,16 +102,28 @@ const platforms = ["WordPress", "Shopify", "Odoo", "Dolibarr", "Chrome", "AI API
             "bottom-[4%] left-[7%]",
             "bottom-0 right-[9%]",
           ][i];
+          const logo = platformLogos[c.slug];
           return (
             <a
               href={withBase(`/products/${c.slug}`)}
+              aria-label={c.label}
               class={`animate-float absolute ${pos} flex items-center gap-2.5 rounded-xl border border-brand-wash bg-paper/90 px-3.5 py-2.5 shadow-md shadow-brand-deep/8 backdrop-blur-sm transition-colors hover:border-brand/40 hover:text-brand`}
               style={`--float-delay:${(i * 0.7).toFixed(1)}s`}
             >
-              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-wash text-brand">
-                <Icon name={c.icon} class="h-4.5 w-4.5" />
+              {logo?.wordmark ? (
+                <img src={withBase(logo.src)} alt="" class="h-4 w-auto" loading="lazy" />
+              ) : logo ? (
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-wash">
+                  <img src={withBase(logo.src)} alt="" class="h-5 w-5 object-contain" loading="lazy" />
+                </span>
+              ) : (
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-wash text-brand">
+                  <Icon name={c.icon} class="h-4.5 w-4.5" />
+                </span>
+              )}
+              <span class="text-xs font-semibold">
+                {logo?.wordmark ? c.label.split(" ").slice(1).join(" ") : c.label}
               </span>
-              <span class="text-xs font-semibold">{c.label}</span>
             </a>
           );
         })}
