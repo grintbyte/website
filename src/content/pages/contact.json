@@ -3,8 +3,8 @@
   "whatsapp": "",
   "address": "",
   "working_hours": "Monday to Friday, 09.00 to 17.00 (GMT+7)",
-  "form_action_url": "",
-  "turnstile_site_key": "",
+  "form_action_url": "https://script.google.com/macros/s/AKfycbxusZEK9bIPH8vrABIZKBqeF6fhJEWodpyPVcel9xBi8UWHdwJoqtM1Uoj8olxnksOk/exec",
+  "turnstile_site_key": "0x4AAAAAAFXnQ6xRIVgbLZ48",
   "enquiry_email": "grintbyte@gmail.com",
   "emailjs": {
     "public_key": "",
