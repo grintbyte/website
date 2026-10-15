@@ -11,6 +11,9 @@ const resultPage = (payload) => `<!doctype html>
 <script>
   (function () {
     function receive(e) {
+      // Only the CMS's ack may trigger the send: extensions and other pages
+      // also post messages, and answering one of those loses the handshake.
+      if (e.data !== "authorizing:github") return;
       window.opener.postMessage(${JSON.stringify(payload).replace(/</g, "\\u003c")}, e.origin);
       window.removeEventListener("message", receive);
     }
