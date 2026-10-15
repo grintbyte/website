@@ -249,3 +249,23 @@ collections:
             widget: string
             required: false
             hint: "Cloudflare dashboard > Analytics & Logs > Web Analytics. Empty = analytics off."
+          - name: google_site_verification
+            label: Google Search Console verification code
+            widget: string
+            required: false
+            hint: "From Search Console > URL-prefix property > HTML tag method: only the content value, not the whole tag. Empty = no meta tag."
+          - name: gtm_id
+            label: Google Tag Manager container ID
+            widget: string
+            required: false
+            hint: "GTM-XXXXXXX. If you manage GA4/Pixel inside GTM, leave the fields below empty to avoid double tracking."
+          - name: ga4_id
+            label: Google Analytics 4 measurement ID
+            widget: string
+            required: false
+            hint: "G-XXXXXXXXXX. Leave empty if GA4 is loaded through Tag Manager."
+          - name: meta_pixel_id
+            label: Meta Pixel ID
+            widget: string
+            required: false
+            hint: "Numeric ID from Meta Events Manager. Leave empty if the Pixel is loaded through Tag Manager."

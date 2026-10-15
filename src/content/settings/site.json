@@ -21,5 +21,9 @@
     "meta_description": "GrintByte is a digital products studio building WordPress plugins, Shopify apps, AI tools, Odoo and Dolibarr modules, Chrome extensions and standalone software platforms.",
     "og_image": "/images/brand/og-card.png"
   },
-  "cloudflare_analytics_token": ""
+  "cloudflare_analytics_token": "",
+  "google_site_verification": "",
+  "gtm_id": "",
+  "ga4_id": "",
+  "meta_pixel_id": ""
 }

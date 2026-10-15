@@ -144,6 +144,12 @@ const settings = defineCollection({
     }),
     // Cloudflare Web Analytics site token; empty = no beacon rendered.
     cloudflare_analytics_token: z.string().default(""),
+    // Third-party integration IDs. All public by design (they ship in the
+    // HTML of every site using them); each renders only when non-empty.
+    google_site_verification: z.string().default(""),
+    gtm_id: z.string().default(""),
+    ga4_id: z.string().default(""),
+    meta_pixel_id: z.string().default(""),
   }),
 });
 

@@ -23,6 +23,18 @@ const pageTitle = title === settings.site_title ? `${settings.site_title} | ${se
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(withBase(ogImage ?? settings.seo.og_image), Astro.site);
 
+// Third-party snippets, each rendered only when its ID is set in the CMS
+// (Settings -> General). The IDs are public by design.
+const gtmSnippet =
+  settings.gtm_id &&
+  `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(settings.gtm_id)});`;
+const ga4Snippet =
+  settings.ga4_id &&
+  `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',${JSON.stringify(settings.ga4_id)});`;
+const pixelSnippet =
+  settings.meta_pixel_id &&
+  `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(settings.meta_pixel_id)});fbq('track','PageView');`;
+
 const organizationLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -69,6 +81,15 @@ const organizationLd = {
       <script type="application/ld+json" set:html={JSON.stringify(ld)} />
     ))}
 
+    {settings.google_site_verification && (
+      <meta name="google-site-verification" content={settings.google_site_verification} />
+    )}
+    {gtmSnippet && <script is:inline set:html={gtmSnippet} />}
+    {settings.ga4_id && (
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${settings.ga4_id}`} />
+    )}
+    {ga4Snippet && <script is:inline set:html={ga4Snippet} />}
+    {pixelSnippet && <script is:inline set:html={pixelSnippet} />}
     {settings.cloudflare_analytics_token && (
       <script
         defer
@@ -78,6 +99,17 @@ const organizationLd = {
     )}
   </head>
   <body class="flex min-h-screen flex-col">
+    {settings.gtm_id && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${settings.gtm_id}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager"
+        />
+      </noscript>
+    )}
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white"
