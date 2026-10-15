@@ -3,13 +3,12 @@
 Company profile + product catalog. Static site built with **Astro**,
 **Tailwind CSS** and **Decap CMS**, deployed to **GitHub Pages**.
 
-> **Content notice**: the sample products and projects were removed ahead of
-> review; add real ones via CMS → Products / Projects (empty categories show
-> a "Coming soon" state, solution pages hide their Projects section until
-> projects exist). The testimonials in `src/content/testimonials/` are still
-> labeled samples, and the testimonials and statistics sections stay
-> **switched off** (`show_testimonials` / `show_stats` in Pages → Home) until
-> real data replaces them.
+> **Content notice**: the sample products, projects and testimonials were
+> removed ahead of review; add real ones via CMS → Products / Projects /
+> Testimonials (empty categories show a "Coming soon" state, solution pages
+> hide their Projects section until projects exist). The testimonials and
+> statistics sections stay **switched off** (`show_testimonials` /
+> `show_stats` in Pages → Home) until there is real data to show.
 
 ## Install & run locally
 
