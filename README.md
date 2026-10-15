@@ -154,6 +154,55 @@ automatically from **Pages → Contact** in the CMS:
 3. **Nothing configured**: the button composes a pre-filled email in the
    visitor's mail app, addressed to the enquiry address. Works with no server.
 
+### Google Sheets logging + email (Apps Script, free, no account limits)
+
+One Apps Script attached to a Google Sheet can do everything at once: log
+every enquiry as a row, email a notification to the team, and send the
+auto-reply — all from grintbyte@gmail.com. No EmailJS needed.
+
+1. In Google Drive (as grintbyte@gmail.com) create a spreadsheet, e.g.
+   **GrintByte Enquiries** → Extensions → Apps Script, and paste:
+
+   ```js
+   const NOTIFY_TO = "grintbyte@gmail.com";
+
+   function doPost(e) {
+     const p = e.parameter;
+     const ss = SpreadsheetApp.getActiveSpreadsheet();
+     const sheet = ss.getSheetByName("Enquiries") || ss.insertSheet("Enquiries");
+     if (sheet.getLastRow() === 0)
+       sheet.appendRow(["Timestamp", "Name", "Email", "Company", "Solution", "Message"]);
+     sheet.appendRow([new Date(), p.name, p.email, p.company || "", p.solution, p.message]);
+
+     MailApp.sendEmail({
+       to: NOTIFY_TO,
+       replyTo: p.email,
+       subject: "Solution enquiry: " + p.solution,
+       body: "Name: " + p.name + "\nEmail: " + p.email + "\nCompany: " + (p.company || "-") +
+         "\nSolution: " + p.solution + "\n\n" + p.message,
+     });
+     // Optional auto-reply to the client (uncomment when the copy is agreed):
+     // MailApp.sendEmail({
+     //   to: p.email,
+     //   subject: "We received your enquiry",
+     //   body: "Hi " + p.name + ",\n\nThanks for reaching out. We reply within one working day.\n\n— GrintByte",
+     // });
+
+     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
+       .setMimeType(ContentService.MimeType.JSON);
+   }
+   ```
+
+2. Deploy → **New deployment** → type **Web app** → Execute as **Me**,
+   Who has access **Anyone** → Deploy, approve the permissions, copy the
+   `/exec` URL.
+3. Paste that URL into **Pages → Contact → Form endpoint URL** in the CMS.
+   Done — the form's existing endpoint mode posts straight to it.
+
+Quotas: MailApp can send ~100 emails/day on a free Gmail account; sheet rows
+are unlimited. After editing the script, deploy a **new version** (Manage
+deployments → edit → version: New) or the live URL keeps the old code.
+
 ### EmailJS setup (free plan: 200 requests/month, 2 templates — enough)
 
 Each enquiry uses 2 requests (notify + auto-reply), so the free plan covers
