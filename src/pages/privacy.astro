@@ -37,9 +37,19 @@ const usesCookies = usesGoogle || usesPixel;
         <h2 class="text-xl font-bold">The enquiry form</h2>
         <p class="mt-3">
           When you <a href={withBase("/contact")} class="text-brand underline">get in touch</a>, you
-          give us your name, email address, an optional company name and your message. It arrives
-          in our mailbox and we keep the correspondence so we can follow up. We do not add you to
-          any mailing list.
+          give us your name, email address, an optional company name and your message. Your enquiry
+          is emailed to our team and recorded in a private spreadsheet on Google's servers that only
+          our team can open, so we can follow up and keep track of the conversation. Google processes
+          this data on our behalf under the
+          <a href="https://policies.google.com/privacy" rel="noopener" class="text-brand underline">Google Privacy Policy</a>.
+          We do not add you to any mailing list.
+        </p>
+        <p class="mt-3">
+          The form is protected against spam by Cloudflare Turnstile, which checks that you are a
+          human and not a bot. To do that, Cloudflare processes technical signals from your browser,
+          including your IP address, as described in the
+          <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" class="text-brand underline">Cloudflare Privacy Policy</a>.
+          Turnstile does not show you puzzles and does not track you across other sites.
         </p>
       </section>
 
@@ -85,7 +95,8 @@ const usesCookies = usesGoogle || usesPixel;
       <section>
         <h2 class="text-xl font-bold">Your data, your call</h2>
         <p class="mt-3">
-          Want to know what we hold about you, or want it deleted? Email
+          We keep enquiry data only as long as we need it to handle the conversation and any work
+          that comes out of it. Want to know what we hold about you, or want it deleted? Email
           <a href={`mailto:${email}`} class="text-brand underline">{email}</a> and we will sort it
           out. If this policy changes, the date at the top changes with it.
         </p>
