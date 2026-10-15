@@ -153,7 +153,9 @@ const platformLogos: Record<string, { src: string; wordmark?: true }> = {
               <span class="block font-bold group-hover:text-brand">{c.label}</span>
               <span class="mt-1 block text-sm leading-snug text-ink-soft">{c.blurb}</span>
               <span class="mt-2 block text-xs font-semibold text-brand">
-                {countByCategory[c.slug]} {countByCategory[c.slug] === 1 ? "product" : "products"}
+                {countByCategory[c.slug] === 0
+                  ? "Coming soon"
+                  : `${countByCategory[c.slug]} ${countByCategory[c.slug] === 1 ? "product" : "products"}`}
               </span>
             </span>
           </a>

@@ -17,12 +17,23 @@ const products = (await getCollection("products")).sort((a, b) =>
   <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
     <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Product catalog</h1>
     <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-soft">
-      {products.length} products across {CATEGORIES.length} platforms. Filter by platform or search by name.
+      {products.length > 0
+        ? `${products.length} products across ${CATEGORIES.length} platforms. Filter by platform or search by name.`
+        : `The catalog spans ${CATEGORIES.length} platforms. The first product listings are on their way.`}
     </p>
+
+    {products.length === 0 && (
+      <div class="mt-10 rounded-xl border border-dashed border-brand-wash px-6 py-16 text-center">
+        <p class="font-display text-lg font-bold">Catalog opening soon</p>
+        <p class="mt-2 text-sm text-ink-soft">
+          We are preparing the first product listings. Need something now? We build to order.
+        </p>
+      </div>
+    )}
 
     <!-- Filter + search: progressive enhancement. Without JS the full grid and
          the category pages (linked in nav/footer) still work. -->
-    <div class="mt-8 flex flex-col gap-4">
+    <div class={`mt-8 flex-col gap-4 ${products.length > 0 ? "flex" : "hidden"}`}>
       <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
         <button
           type="button"

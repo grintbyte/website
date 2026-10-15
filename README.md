@@ -3,14 +3,13 @@
 Company profile + product catalog. Static site built with **Astro**,
 **Tailwind CSS** and **Decap CMS**, deployed to **GitHub Pages**.
 
-> **Sample content notice**: the products, solutions, projects and
-> testimonials in `src/content/` are placeholder seed content demonstrating
-> the structure. The testimonial entries are explicitly labeled as samples,
-> and the testimonials and statistics sections on the home page are
-> **switched off** (`show_testimonials` / `show_stats` in Pages → Home).
-> The project entries under `src/content/projects/` describe generic
-> engagement shapes, not named client work: replace them with real case
-> studies (and square thumbnails) via CMS → Projects before launch.
+> **Content notice**: the sample products and projects were removed ahead of
+> review; add real ones via CMS → Products / Projects (empty categories show
+> a "Coming soon" state, solution pages hide their Projects section until
+> projects exist). The testimonials in `src/content/testimonials/` are still
+> labeled samples, and the testimonials and statistics sections stay
+> **switched off** (`show_testimonials` / `show_stats` in Pages → Home) until
+> real data replaces them.
 
 ## Install & run locally
 
@@ -161,7 +160,12 @@ every enquiry as a row, email a notification to the team, and send the
 auto-reply — all from grintbyte@gmail.com. No EmailJS needed.
 
 1. In Google Drive (as grintbyte@gmail.com) create a spreadsheet, e.g.
-   **GrintByte Enquiries** → Extensions → Apps Script, and paste:
+   **GrintByte Enquiries** → Extensions → Apps Script, and paste the script
+   below. (A standalone script from script.new works too: replace
+   `SpreadsheetApp.getActiveSpreadsheet()` with
+   `SpreadsheetApp.openById("<sheet id from its URL>")` — this is what the
+   production deployment uses, after a container-bound project kept serving
+   a login wall despite correct settings.)
 
    ```js
    const NOTIFY_TO = "grintbyte@gmail.com";
