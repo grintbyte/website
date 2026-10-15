@@ -154,7 +154,7 @@ h1, h2, h3, h4 {
     animation: spin-slow 60s linear infinite;
   }
   .project-item {
-    transition: opacity 0.2s ease, scale 0.2s ease;
+    transition: opacity 0.2s ease, scale 0.2s ease, transform 0.3s ease;
   }
   .project-item.is-away {
     opacity: 0;

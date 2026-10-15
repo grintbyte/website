@@ -148,7 +148,7 @@ const projectTags = [...new Set(projects.flatMap((p) => p.data.tags))];
             ))}
           </div>
         )}
-        <ul id="project-grid" class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <ul id="project-grid" class="relative mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {projects.map((p, i) => (
             <li class="project-item" data-tags={p.data.tags.join("|")}>
               <button
@@ -230,9 +230,11 @@ const projectTags = [...new Set(projects.flatMap((p) => p.data.tags))];
 </BaseLayout>
 
 <script>
-  // Tag filter: isotope-style show/hide with a short scale+fade.
+  // Tag filter, isotope-style: leavers fade out in place, entrants fade in,
+  // and survivors FLIP-slide to their new grid positions.
   const grid = document.getElementById("project-grid");
   if (grid) {
+    const motionOK = matchMedia("(prefers-reduced-motion: no-preference)").matches;
     const items = Array.from(grid.querySelectorAll<HTMLElement>(".project-item"));
     const hideTimers = new WeakMap<HTMLElement, number>();
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>(".filter-btn"));
@@ -243,17 +245,59 @@ const projectTags = [...new Set(projects.flatMap((p) => p.data.tags))];
           b.setAttribute("aria-pressed", String(b === btn));
         });
         const tag = btn.dataset.filter!;
+        const gridRect = grid.getBoundingClientRect();
+        const first = new Map(
+          items.filter((el) => !el.classList.contains("hidden")).map((el) => [el, el.getBoundingClientRect()]),
+        );
         items.forEach((el) => {
           clearTimeout(hideTimers.get(el));
+          el.style.cssText = "";
           const show = !tag || el.dataset.tags!.split("|").includes(tag);
           if (show) {
-            el.classList.remove("hidden");
-            requestAnimationFrame(() => el.classList.remove("is-away"));
-          } else {
-            el.classList.add("is-away");
-            hideTimers.set(el, window.setTimeout(() => el.classList.add("hidden"), 200));
+            if (el.classList.contains("hidden")) {
+              el.classList.remove("hidden");
+              el.classList.add("is-away");
+              requestAnimationFrame(() => el.classList.remove("is-away"));
+            } else {
+              el.classList.remove("is-away");
+            }
+          } else if (!el.classList.contains("hidden")) {
+            if (motionOK) {
+              // Pin at the old spot (out of flow) so it fades where it stood
+              // while the survivors slide into the freed space.
+              const r = first.get(el)!;
+              el.style.cssText = `position:absolute;left:${r.left - gridRect.left}px;top:${r.top - gridRect.top}px;width:${r.width}px;`;
+              el.classList.add("is-away");
+              hideTimers.set(
+                el,
+                window.setTimeout(() => {
+                  el.classList.add("hidden");
+                  el.style.cssText = "";
+                }, 200),
+              );
+            } else {
+              el.classList.add("hidden");
+            }
           }
         });
+        // FLIP: survivors jump to the new layout, then transform back to the
+        // old spot and release, so they appear to slide.
+        if (motionOK)
+          requestAnimationFrame(() => {
+            first.forEach((r, el) => {
+              if (el.classList.contains("hidden") || el.classList.contains("is-away")) return;
+              const now = el.getBoundingClientRect();
+              const dx = r.left - now.left;
+              const dy = r.top - now.top;
+              if (!dx && !dy) return;
+              el.style.transition = "none";
+              el.style.transform = `translate(${dx}px,${dy}px)`;
+              requestAnimationFrame(() => {
+                el.style.transition = "";
+                el.style.transform = "";
+              });
+            });
+          });
       });
     });
 
