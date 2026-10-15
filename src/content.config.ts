@@ -116,6 +116,7 @@ const contact = defineCollection({
     address: z.string().optional(),
     working_hours: z.string().optional(),
     form_action_url: z.string().optional(),
+    turnstile_site_key: z.string().optional(),
     emailjs: z
       .object({
         public_key: z.string().default(""),

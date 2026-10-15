@@ -168,6 +168,22 @@ auto-reply — all from grintbyte@gmail.com. No EmailJS needed.
 
    function doPost(e) {
      const p = e.parameter;
+
+     // Turnstile spam check: runs only when the TURNSTILE_SECRET script
+     // property is set (Project Settings -> Script Properties). The secret
+     // lives there, never in the website repo.
+     const secret = PropertiesService.getScriptProperties().getProperty("TURNSTILE_SECRET");
+     if (secret) {
+       const v = UrlFetchApp.fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+         method: "post",
+         payload: { secret: secret, response: p["cf-turnstile-response"] || "" },
+       });
+       if (!JSON.parse(v.getContentText()).success) {
+         return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "captcha" }))
+           .setMimeType(ContentService.MimeType.JSON);
+       }
+     }
+
      const ss = SpreadsheetApp.getActiveSpreadsheet();
      const sheet = ss.getSheetByName("Enquiries") || ss.insertSheet("Enquiries");
      if (sheet.getLastRow() === 0)
@@ -193,11 +209,18 @@ auto-reply — all from grintbyte@gmail.com. No EmailJS needed.
    }
    ```
 
-2. Deploy → **New deployment** → type **Web app** → Execute as **Me**,
+2. **Spam protection (Turnstile, recommended):** Cloudflare dashboard →
+   Turnstile → Add widget (domain `grintbyte.com`, mode Managed). Copy the
+   **site key** into **Pages → Contact → Turnstile site key** in the CMS
+   (public-safe), and the **secret key** into the Apps Script editor under
+   Project Settings → **Script Properties** as `TURNSTILE_SECRET` (never
+   into this repo). Without the property the script simply skips the check.
+3. Deploy → **New deployment** → type **Web app** → Execute as **Me**,
    Who has access **Anyone** → Deploy, approve the permissions, copy the
    `/exec` URL.
-3. Paste that URL into **Pages → Contact → Form endpoint URL** in the CMS.
-   Done — the form's existing endpoint mode posts straight to it.
+4. Paste that URL into **Pages → Contact → Form endpoint URL** in the CMS.
+   Done — the form's existing endpoint mode posts straight to it, the
+   Turnstile widget appears automatically once both keys are in place.
 
 Quotas: MailApp can send ~100 emails/day on a free Gmail account; sheet rows
 are unlimited. After editing the script, deploy a **new version** (Manage
