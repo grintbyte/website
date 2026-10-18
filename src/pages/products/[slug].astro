@@ -58,19 +58,27 @@ const related = product
   : [];
 const Content = product ? (await render(product)).Content : null;
 
-const linkButtons = data
+// CTA labels and glyphs per owner: crown = Pro purchase, download = free version.
+const isWpOrg = data?.links.store_url?.includes("wordpress.org") ?? false;
+const linkButtons: [string, string, string | undefined][] = data
   ? (
       [
         // Buy first: when a checkout link (e.g. Lemon Squeezy) exists it is
         // the primary action and gets the gradient button styling below.
-        ["Buy now", data.links.buy_url],
+        ["Buy Now Pro", data.links.buy_url, "crown"],
         // A wordpress.org listing is the free version, not a store page.
-        [data.links.store_url?.includes("wordpress.org") ? "Free on WordPress.org" : "Store page", data.links.store_url],
-        ["Live demo", data.links.demo_url],
-        ["Documentation", data.links.docs_url],
-      ] as const
-    ).filter(([, url]) => url)
+        [isWpOrg ? "Download Free" : "Store page", data.links.store_url, isWpOrg ? "download" : undefined],
+        ["Live demo", data.links.demo_url, undefined],
+        ["Documentation", data.links.docs_url, undefined],
+      ] as [string, string | undefined, string | undefined][]
+    ).filter((b): b is [string, string, string | undefined] => Boolean(b[1]))
   : [];
+
+// Buy card copy: "$14 one-time" + "Paid" read doubled, so the card shows the
+// bare amount with "One-time payment" under it (owner-directed).
+const oneTime = data?.price?.toLowerCase().includes("one-time") ?? false;
+const cardPrice = oneTime ? data!.price!.replace(/\s*one-time\s*/i, " ").trim() : (data?.price ?? data?.pricing_type);
+const cardNote = oneTime ? "One-time payment" : data?.pricing_type;
 
 // Hero visual: the first REAL screenshot in a browser frame (no fabricated
 // mockups); products without screenshots get a brand placeholder instead.
@@ -326,15 +334,21 @@ const crumbs = breadcrumbLd(
               </span>
             )}
           </div>
-          <h1 class="reveal revealed mt-3 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl" style="--reveal-delay:.1s">
-            {data.title}
-          </h1>
+          <div class="reveal revealed mt-3 flex items-center gap-4" style="--reveal-delay:.1s">
+            {data.icon && (
+              <img src={withBase(data.icon)} alt="" class="h-14 w-14 shrink-0 rounded-xl border border-brand-wash object-contain sm:h-16 sm:w-16" width="64" height="64" />
+            )}
+            <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              {data.title}
+            </h1>
+          </div>
           <p class="reveal revealed mt-5 max-w-xl text-lg leading-relaxed text-ink-soft" style="--reveal-delay:.2s">
             {data.short_description}
           </p>
           <div class="reveal revealed mt-8 flex flex-wrap gap-3" style="--reveal-delay:.3s">
             {linkButtons.length > 0 ? (
-              <a href={linkButtons[0][1]} rel="noopener" class="brand-gradient inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
+              <a href={linkButtons[0][1]} rel="noopener" class="brand-gradient inline-flex min-h-11 items-center gap-2 rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
+                {linkButtons[0][2] && <Icon name={linkButtons[0][2]} class="h-4.5 w-4.5" />}
                 {linkButtons[0][0]}
               </a>
             ) : (
@@ -343,7 +357,8 @@ const crumbs = breadcrumbLd(
               </a>
             )}
             {linkButtons.length > 1 ? (
-              <a href={linkButtons[1][1]} rel="noopener" class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash">
+              <a href={linkButtons[1][1]} rel="noopener" class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash">
+                {linkButtons[1][2] && <Icon name={linkButtons[1][2]} class="h-4.5 w-4.5" />}
                 {linkButtons[1][0]}
               </a>
             ) : data.features.length > 0 && (
@@ -535,8 +550,8 @@ const crumbs = breadcrumbLd(
 
         <!-- Buy card (YITH-style): price, the actions, nothing else. -->
         <aside class="h-fit rounded-xl border border-brand-wash bg-paper-dim p-6 lg:sticky lg:top-36">
-          <p class="font-display text-3xl font-extrabold tracking-tight text-brand-deep">{data.price ?? data.pricing_type}</p>
-          {data.price && <p class="mt-1 text-sm text-ink-soft">{data.pricing_type}</p>}
+          <p class="font-display text-3xl font-extrabold tracking-tight text-brand-deep">{cardPrice}</p>
+          {data.price && <p class="mt-1 text-sm text-ink-soft">{cardNote}</p>}
 
           <!--
             No dead buttons (R-26): when no store/demo/docs links exist
@@ -544,16 +559,17 @@ const crumbs = breadcrumbLd(
           -->
           {linkButtons.length > 0 ? (
             <div class="mt-5 flex flex-col gap-2">
-              {linkButtons.map(([label, url], i) => (
+              {linkButtons.map(([label, url, iconName], i) => (
                 <a
                   href={url}
                   rel="noopener"
                   class={
                     i === 0
-                      ? "brand-gradient inline-flex min-h-11 items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-                      : "inline-flex min-h-11 items-center justify-center rounded-lg border border-brand/30 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand-wash"
+                      ? "brand-gradient inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+                      : "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand/30 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand-wash"
                   }
                 >
+                  {iconName && <Icon name={iconName} class="h-4 w-4" />}
                   {label}
                 </a>
               ))}
