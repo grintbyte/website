@@ -11,13 +11,15 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  /** Open Graph object type; product pages pass "product". */
+  ogType?: string;
   /** Extra JSON-LD objects for this page (Organization is added on every page). */
   jsonLd?: object[];
 }
 
 const settings = (await getEntry("settings", "site"))!.data;
 const contact = (await getEntry("contact", "contact"))!.data;
-const { title, description = settings.seo.meta_description, ogImage, jsonLd = [] } = Astro.props;
+const { title, description = settings.seo.meta_description, ogImage, ogType = "website", jsonLd = [] } = Astro.props;
 
 const pageTitle = title === settings.site_title ? `${settings.site_title} | ${settings.tagline}` : `${title} | ${settings.site_title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -62,7 +64,8 @@ const organizationLd = {
     <link rel="manifest" href={withBase("/site.webmanifest")} />
     <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <slot name="head" />
     <meta property="og:site_name" content={settings.site_title} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />

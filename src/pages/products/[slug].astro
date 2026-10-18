@@ -89,16 +89,41 @@ const sections: [string, string][] = data
     ]
   : [];
 
+// Price number for structured data and OG product tags ("$14 one-time" -> "14").
+const priceNumber = data?.pricing_type === "Paid"
+  ? data.price?.match(/\d+(\.\d+)?/)?.[0]
+  : data?.pricing_type === "Free"
+    ? "0"
+    : undefined;
+const productUrl = product ? new URL(withBase(`/products/${product.id}`), Astro.site).toString() : "";
+const abs = (path: string) => new URL(withBase(path), Astro.site).toString();
+
 const productLd = data
   ? {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       name: data.title,
       description: data.short_description,
-      applicationCategory: data.category,
+      applicationCategory: "BusinessApplication",
+      applicationSubCategory: data.category,
       operatingSystem: data.compatibility,
       softwareVersion: data.version,
-      url: new URL(withBase(`/products/${product!.id}`), Astro.site).toString(),
+      url: productUrl,
+      ...(data.icon && { image: abs(data.icon) }),
+      ...(data.screenshots.length && { screenshot: data.screenshots.map(abs) }),
+      ...(data.features.length && { featureList: data.features }),
+      ...(data.links.store_url && { installUrl: data.links.store_url }),
+      brand: { "@type": "Brand", name: "GrintByte" },
+      ...(priceNumber && {
+        offers: {
+          "@type": "Offer",
+          price: priceNumber,
+          priceCurrency: "USD",
+          availability:
+            data.status === "Available" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+          url: productUrl,
+        },
+      }),
     }
   : null;
 
@@ -268,7 +293,16 @@ const crumbs = breadcrumbLd(
 )}
 
 {kind === "product" && product && data && (
-  <BaseLayout title={data.title} description={data.short_description} jsonLd={[productLd!, crumbs]}>
+  <BaseLayout title={data.title} description={data.short_description} ogType="product" jsonLd={[productLd!, crumbs]}>
+    <Fragment slot="head">
+      {data.icon && <meta property="og:image:alt" content={`${data.title} logo`} />}
+      {priceNumber && (
+        <>
+          <meta property="product:price:amount" content={priceNumber} />
+          <meta property="product:price:currency" content="USD" />
+        </>
+      )}
+    </Fragment>
     <!-- Hero: same family as the home/solution heroes. The visual is the
          product's first REAL screenshot in a browser frame; never a mockup. -->
     <section class="relative overflow-hidden">
