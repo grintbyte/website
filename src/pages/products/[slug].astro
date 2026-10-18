@@ -146,13 +146,52 @@ const crumbs = breadcrumbLd(
             </a>
           </div>
         </div>
-        <div class="relative mx-auto hidden h-56 w-56 lg:block" aria-hidden="true">
-          <div class="orbit-ring absolute inset-0 rounded-full border border-dashed border-brand/15"></div>
-          <div class="absolute inset-6 rounded-full bg-brand-light/10 blur-xl"></div>
-          <span class="animate-float absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-brand-wash text-brand shadow-md shadow-brand-deep/10">
-            <Icon name={category.icon} class="h-12 w-12" />
-          </span>
-        </div>
+        {/* Orbital visual (mirrors the home hero): the category's own
+            products float as chips, each a real link to its page. */}
+        {categoryProducts.length > 0 ? (
+          <div class="relative mx-auto hidden h-[380px] w-full max-w-[440px] lg:block" aria-label={`${category.label} products`}>
+            <div class="orbit-ring absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand/15" aria-hidden="true"></div>
+            <div class="orbit-ring absolute left-1/2 top-1/2 h-[350px] w-[350px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-brand/10 [animation-direction:reverse]" aria-hidden="true"></div>
+            <div class="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-light/15 blur-2xl" aria-hidden="true"></div>
+            <div class="animate-float absolute left-1/2 top-1/2 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-brand-wash bg-paper text-brand shadow-lg shadow-brand-deep/10" aria-hidden="true">
+              <Icon name={category.icon} class="h-12 w-12" />
+            </div>
+            {categoryProducts.slice(0, 6).map((p, i) => {
+              const pos = [
+                "left-0 top-[6%]",
+                "right-0 top-[14%]",
+                "left-[2%] top-[48%]",
+                "right-[2%] top-[52%]",
+                "bottom-[4%] left-[10%]",
+                "bottom-0 right-[12%]",
+              ][i];
+              return (
+                <a
+                  href={withBase(`/products/${p.id}`)}
+                  class={`animate-float absolute ${pos} flex items-center gap-2.5 rounded-xl border border-brand-wash bg-paper/90 px-3 py-2 shadow-md shadow-brand-deep/8 backdrop-blur-sm transition-colors hover:border-brand/40 hover:text-brand`}
+                  style={`--float-delay:${(i * 0.7).toFixed(1)}s`}
+                >
+                  {p.data.icon ? (
+                    <img src={withBase(p.data.icon)} alt="" class="h-7 w-7 rounded-md object-contain" loading="lazy" width="28" height="28" />
+                  ) : (
+                    <span class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-wash text-brand">
+                      <Icon name={category.icon} class="h-4 w-4" />
+                    </span>
+                  )}
+                  <span class="text-xs font-semibold">{p.data.title}</span>
+                </a>
+              );
+            })}
+          </div>
+        ) : (
+          <div class="relative mx-auto hidden h-56 w-56 lg:block" aria-hidden="true">
+            <div class="orbit-ring absolute inset-0 rounded-full border border-dashed border-brand/15"></div>
+            <div class="absolute inset-6 rounded-full bg-brand-light/10 blur-xl"></div>
+            <span class="animate-float absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-brand-wash text-brand shadow-md shadow-brand-deep/10">
+              <Icon name={category.icon} class="h-12 w-12" />
+            </span>
+          </div>
+        )}
       </div>
 
       <!--
