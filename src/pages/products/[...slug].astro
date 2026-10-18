@@ -9,15 +9,18 @@ import RevealScript from "../../components/RevealScript.astro";
 import Icon from "../../components/Icon.astro";
 import CircuitMotif from "../../components/CircuitMotif.astro";
 import { withBase } from "../../lib/paths";
-import { CATEGORIES, categoryByLabel, type Category } from "../../lib/categories";
+import { CATEGORIES, categoryByLabel, productPath, type Category } from "../../lib/categories";
 import { breadcrumbLd } from "../../lib/seo";
 
 /**
- * One dynamic route serves both URL shapes the site needs:
- *   /products/<category-slug>  -> category listing page
- *   /products/<product-slug>   -> product detail page
- * Astro cannot host two [param] routes in one folder, so getStaticPaths emits
- * both sets. Product filenames must therefore never equal a category slug.
+ * One rest-param route serves every /products/* URL shape:
+ *   /products/<category-slug>            -> category listing page
+ *   /products/<category-slug>/<product>  -> product detail (canonical; matches
+ *                                           the breadcrumb, owner-directed SEO)
+ *   /products/<product-slug>             -> redirect stub to the canonical URL
+ *                                           (the old flat shape stays reachable)
+ * Product filenames must still never equal a category slug: the redirect stubs
+ * share the single-segment namespace with the category pages.
  */
 export async function getStaticPaths() {
   const products = await getCollection("products");
@@ -26,14 +29,18 @@ export async function getStaticPaths() {
     props: { kind: "category" as const, category, product: null },
   }));
   const productPaths = products.map((product) => ({
-    params: { slug: product.id },
+    params: { slug: productPath(product).replace("/products/", "") },
     props: { kind: "product" as const, category: null, product },
   }));
-  return [...categoryPaths, ...productPaths];
+  const redirectPaths = products.map((product) => ({
+    params: { slug: product.id },
+    props: { kind: "redirect" as const, category: null, product },
+  }));
+  return [...categoryPaths, ...productPaths, ...redirectPaths];
 }
 
 interface Props {
-  kind: "category" | "product";
+  kind: "category" | "product" | "redirect";
   category: Category | null;
   product: CollectionEntry<"products"> | null;
 }
@@ -105,7 +112,7 @@ const priceNumber = data?.pricing_type === "Paid"
   : data?.pricing_type === "Free"
     ? "0"
     : undefined;
-const productUrl = product ? new URL(withBase(`/products/${product.id}`), Astro.site).toString() : "";
+const productUrl = product ? new URL(withBase(productPath(product)), Astro.site).toString() : "";
 const abs = (path: string) => new URL(withBase(path), Astro.site).toString();
 
 const productLd = data
@@ -202,7 +209,7 @@ const crumbs = breadcrumbLd(
               ][i];
               return (
                 <a
-                  href={withBase(`/products/${p.id}`)}
+                  href={withBase(productPath(p))}
                   class={`animate-float absolute ${pos} flex items-center gap-2.5 rounded-xl border border-brand-wash bg-paper/90 px-3 py-2 shadow-md shadow-brand-deep/8 backdrop-blur-sm transition-colors hover:border-brand/40 hover:text-brand`}
                   style={`--float-delay:${(i * 0.7).toFixed(1)}s`}
                 >
@@ -262,7 +269,7 @@ const crumbs = breadcrumbLd(
                 <div class="flex flex-1 flex-col p-5">
                   <div class="flex items-start justify-between gap-3">
                     <h3 class="text-base font-bold">
-                      <a href={withBase(`/products/${p.id}`)} class="after:absolute after:inset-0 group-hover:text-brand">
+                      <a href={withBase(productPath(p))} class="after:absolute after:inset-0 group-hover:text-brand">
                         {p.data.title}
                       </a>
                     </h3>
@@ -300,6 +307,23 @@ const crumbs = breadcrumbLd(
     />
     <RevealScript />
   </BaseLayout>
+)}
+
+{/* Old flat URL: an instant client redirect to the canonical nested URL,
+    noindexed so search engines follow the canonical instead. */}
+{kind === "redirect" && product && data && (
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>{data.title} | GrintByte</title>
+      <meta name="robots" content="noindex" />
+      <link rel="canonical" href={productUrl} />
+      <meta http-equiv="refresh" content={`0;url=${withBase(productPath(product))}`} />
+    </head>
+    <body>
+      <p>This page has moved to <a href={withBase(productPath(product))}>{productUrl}</a>.</p>
+    </body>
+  </html>
 )}
 
 {kind === "product" && product && data && (

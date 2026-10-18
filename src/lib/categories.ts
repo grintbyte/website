@@ -72,3 +72,8 @@ export function categoryBySlug(slug: string): Category | undefined {
 export function categoryByLabel(label: string): Category | undefined {
   return CATEGORIES.find((c) => c.label === label);
 }
+
+/** Canonical product URL: nested under its category, matching the breadcrumb. */
+export function productPath(product: { id: string; data: { category: string } }): string {
+  return `/products/${categoryByLabel(product.data.category)!.slug}/${product.id}`;
+}

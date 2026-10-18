@@ -109,8 +109,11 @@ Three places must agree (each file says so in a comment):
    options in the products collection.
 
 The category page (`/products/<slug>`), nav dropdown, footer and filters all
-generate from `categories.ts`. Product filenames must never equal a category
-slug (one dynamic route serves both URL shapes).
+generate from `categories.ts`. Product URLs are nested under their category
+(`/products/<category>/<product>`, matching the breadcrumb); the old flat
+`/products/<product>` URLs render as redirect stubs to the canonical page.
+Product filenames must still never equal a category slug (stubs and category
+pages share the single-segment namespace).
 
 ## Contact form
 

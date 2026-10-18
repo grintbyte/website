@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { withBase } from "../lib/paths";
-import { categoryByLabel } from "../lib/categories";
+import { categoryByLabel, productPath } from "../lib/categories";
 import Icon from "./Icon.astro";
 import PricingBadge from "./PricingBadge.astro";
 
@@ -34,7 +34,7 @@ const category = categoryByLabel(data.category);
   </div>
 
   <h3 class="mt-4 text-base font-bold">
-    <a href={withBase(`/products/${product.id}`)} class="after:absolute after:inset-0 group-hover:text-brand">
+    <a href={withBase(productPath(product))} class="after:absolute after:inset-0 group-hover:text-brand">
       {data.title}
     </a>
   </h3>
