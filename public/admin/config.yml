@@ -62,6 +62,15 @@ collections:
         widget: list
         required: false
         field: { name: feature, label: Feature, widget: string }
+      - name: free_vs_pro
+        label: "Free vs Pro comparison"
+        widget: list
+        required: false
+        hint: 'In Free/Pro cells: "yes" and "no" become icons, anything else shows as text (e.g. "2 presets").'
+        fields:
+          - { name: feature, label: Feature, widget: string }
+          - { name: free, label: Free, widget: string, default: "yes" }
+          - { name: pro, label: Pro, widget: string, default: "yes" }
       - { name: version, label: Version, widget: string, required: false }
       - { name: compatibility, label: Compatibility, widget: string, required: false, hint: 'e.g. "WordPress 6.x" or "Odoo 17"' }
       - name: links

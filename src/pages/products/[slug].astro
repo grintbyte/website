@@ -64,7 +64,8 @@ const linkButtons = data
         // Buy first: when a checkout link (e.g. Lemon Squeezy) exists it is
         // the primary action and gets the gradient button styling below.
         ["Buy now", data.links.buy_url],
-        ["Store page", data.links.store_url],
+        // A wordpress.org listing is the free version, not a store page.
+        [data.links.store_url?.includes("wordpress.org") ? "Free on WordPress.org" : "Store page", data.links.store_url],
         ["Live demo", data.links.demo_url],
         ["Documentation", data.links.docs_url],
       ] as const
@@ -82,6 +83,7 @@ const sections: [string, string][] = data
   ? [
       ["overview", "Overview"] as [string, string],
       ...(data.features.length ? [["features", "Features"] as [string, string]] : []),
+      ...(data.free_vs_pro.length ? [["compare", "Free vs Pro"] as [string, string]] : []),
       ...(data.screenshots.length ? [["screenshots", "Screenshots"] as [string, string]] : []),
       ["tech", "Technical info"] as [string, string],
     ]
@@ -357,6 +359,47 @@ const crumbs = breadcrumbLd(
                   </li>
                 ))}
               </ul>
+            </section>
+          )}
+
+          {data.free_vs_pro.length > 0 && (
+            <section id="compare" class="mt-12 scroll-mt-32" aria-labelledby="compare-title">
+              <h2 id="compare-title" class="text-xl font-bold">Free vs Pro</h2>
+              <div class="mt-4 overflow-x-auto rounded-xl border border-brand-wash">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="border-b border-brand-wash text-left">
+                      <th scope="col" class="px-4 py-3 font-semibold">Feature</th>
+                      <th scope="col" class="w-32 px-4 py-3 text-center font-semibold">Free</th>
+                      <th scope="col" class="w-40 bg-brand-wash px-4 py-3 text-center font-semibold text-brand-deep">Pro</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.free_vs_pro.map((row) => (
+                      <tr class="border-b border-brand-wash last:border-0">
+                        <td class="px-4 py-3">{row.feature}</td>
+                        {[row.free, row.pro].map((value, i) => (
+                          <td class={`px-4 py-3 text-center ${i === 1 ? "bg-brand-wash/60 font-medium text-brand-deep" : "text-ink-soft"}`}>
+                            {value === "yes" ? (
+                              <>
+                                <svg class="mx-auto h-4 w-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                                <span class="sr-only">Included</span>
+                              </>
+                            ) : value === "no" ? (
+                              <>
+                                <svg class="mx-auto h-4 w-4 text-ink-soft/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                                <span class="sr-only">Not included</span>
+                              </>
+                            ) : (
+                              value
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </section>
           )}
 

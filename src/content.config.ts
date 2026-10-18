@@ -22,6 +22,11 @@ const products = defineCollection({
     pricing_type: z.enum(["Free", "Freemium", "Paid"]),
     price: z.string().optional(),
     features: z.array(z.string()).default([]),
+    // Free vs Pro comparison rows. "yes"/"no" render as check/dash icons,
+    // any other string renders as literal text (e.g. "2 presets").
+    free_vs_pro: z
+      .array(z.object({ feature: z.string(), free: z.string(), pro: z.string() }))
+      .default([]),
     version: z.string().optional(),
     compatibility: z.string().optional(),
     links: z
