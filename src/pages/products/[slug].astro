@@ -84,7 +84,9 @@ const cardNote = oneTime ? "One-time payment" : data?.pricing_type;
 // mockups); products without screenshots get a brand placeholder instead.
 const shot = data?.screenshots[0];
 const heroChips = data?.features.slice(0, 3) ?? [];
-const chipPositions = ["-left-6 top-6", "-right-5 top-[48%]", "-left-3 bottom-6"];
+// Corner anchors only: the frame's center holds the icon when there is no
+// screenshot, and a mid-height chip would sit on top of it.
+const chipPositions = ["-left-6 top-6", "-right-5 top-[22%]", "-left-3 bottom-8"];
 
 // Section nav (YITH-style): only sections that actually have content.
 const sections: [string, string][] = data
@@ -392,7 +394,9 @@ const crumbs = breadcrumbLd(
             ) : (
               <div class="flex aspect-[16/10] w-full items-center justify-center bg-gradient-to-br from-brand-wash to-paper-dim">
                 {data.icon ? (
-                  <img src={withBase(data.icon)} alt="" class="h-20 w-20 object-contain" />
+                  <span class="flex h-24 w-24 items-center justify-center rounded-2xl border border-brand-wash bg-paper p-2 shadow-md shadow-brand-deep/10">
+                    <img src={withBase(data.icon)} alt="" class="h-full w-full rounded-lg object-contain" />
+                  </span>
                 ) : (
                   <Icon name={productCategory?.icon ?? "stack"} class="h-16 w-16 text-brand/50" />
                 )}
