@@ -5,6 +5,7 @@ short_description: "Interactive 3D product visualization for e-commerce. Custome
 icon: "/images/products/byte3dview.png"
 pricing_type: "Paid"
 price: "$14 one-time"
+version: "2.0"
 features:
   - "Interactive 3D viewer embedded in the product page"
   - "Free 360-degree rotation from every angle"
