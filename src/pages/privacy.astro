@@ -28,34 +28,44 @@ const usesCookies = usesGoogle || usesPixel;
         <h2 class="text-xl font-bold">The short version</h2>
         <p class="mt-3">
           {usesCookies
-            ? "This site collects as little as it can while still measuring whether its marketing works. The analytics tools listed below may set cookies; beyond that, the only personal data we receive is what you send us by email, and we use it solely to reply to you."
-            : "This site collects as little as possible. No advertising trackers, no cookies set by us, and nothing is sold or shared for marketing. The only personal data we receive is what you send us by email, and we use it solely to reply to you."}
+            ? "This site collects as little data as possible. The analytics tools listed below may set cookies to measure whether our marketing works; nothing is sold or shared for marketing purposes. The personal information we receive is limited to what you provide when you contact us or purchase a software license, used solely to support you and deliver your digital products."
+            : "This site collects as little data as possible. We do not use third-party advertising trackers, we do not set tracking cookies, and nothing is sold or shared for marketing purposes. The personal information we receive is limited to what you provide when you contact us or purchase a software license, used solely to support you and deliver your digital products."}
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Contacting us</h2>
+        <h2 class="text-xl font-bold">Purchases and payments</h2>
         <p class="mt-3">
-          When you email us at <a href={`mailto:${email}`} class="text-brand underline">{email}</a>, we receive your
-          email address and whatever you choose to include. We use it solely to reply to you and to
-          keep track of the conversation, and we do not add you to any mailing list.
+          All product order processing, payment collection and digital delivery are handled
+          directly by our Merchant of Record, Lemon Squeezy (Lemon Squeezy, LLC).
         </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold">Purchases</h2>
         <p class="mt-3">
-          Product checkout is handled entirely by our payment provider on their own site. Your
-          payment details never pass through this website; the provider tells us only what we need
-          to deliver the product, such as your email address and what you bought. If something goes
-          wrong with a purchase, our
+          Your sensitive payment information, such as credit card numbers or billing details, is
+          submitted directly to Lemon Squeezy and never passes through or gets stored on our
+          servers. Lemon Squeezy securely processes transactions and provides us only with the
+          operational data required to deliver and manage your digital software licenses, such as
+          your name, email address, order reference number and items purchased. For more details,
+          please review the
+          <a href="https://www.lemonsqueezy.com/privacy" rel="noopener" class="text-brand underline">Lemon Squeezy Privacy Policy</a>.
+          If something goes wrong with a purchase, our
           <a href={withBase("/refunds")} class="text-brand underline">refund policy</a> explains how
           to get your money back.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Analytics and hosting</h2>
+        <h2 class="text-xl font-bold">Enquiries</h2>
+        <p class="mt-3">
+          When you send us an enquiry, we collect your name, email address, optional company name
+          and message strictly to assist you and respond to your questions. Your message is
+          forwarded to our team and recorded securely on our administrative cloud systems to ensure
+          proper follow-up. We never add your contact information to marketing or newsletter lists
+          without your explicit opt-in consent.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Analytics, hosting and server logs</h2>
         {settings.cloudflare_analytics_token && (
           <p class="mt-3">
             We measure traffic with Cloudflare Web Analytics, which is cookie-free and does not
@@ -78,19 +88,30 @@ const usesCookies = usesGoogle || usesPixel;
           </p>
         )}
         <p class="mt-3">
-          The site is hosted on GitHub Pages, so GitHub may log visits (such as IP addresses) as
-          described in the
-          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" class="text-brand underline">GitHub Privacy Statement</a>.
+          This website is hosted using third-party cloud infrastructure (GitHub Pages). When you
+          browse our website, hosting servers may automatically record standard access logs. This
+          technical data can include your IP address, browser type, operating system, referring URL
+          and the date and time of access. These logs are used strictly for technical performance
+          diagnostics, network stability and security monitoring, and are not combined with any
+          personally identifiable information. See the
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" class="text-brand underline">GitHub Privacy Statement</a>
+          for how GitHub handles these logs.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Your data, your call</h2>
+        <h2 class="text-xl font-bold">Data retention and your rights</h2>
         <p class="mt-3">
-          We keep your messages only as long as we need them to handle the conversation and any work
-          that comes out of it. Want to know what we hold about you, or want it deleted? Email
-          <a href={`mailto:${email}`} class="text-brand underline">{email}</a> and we will sort it
-          out. If this policy changes, the date at the top changes with it.
+          We retain customer correspondence and support enquiries only for as long as necessary to
+          address your requests, manage your product licenses, and fulfill administrative or legal
+          obligations.
+        </p>
+        <p class="mt-3">
+          If you would like to know what information we hold about you or request its deletion,
+          please contact us at
+          <a href={`mailto:${email}`} class="text-brand underline">{email}</a> and we will fulfill
+          your request promptly. Any updates to this policy will be posted on this page with a
+          revised date at the top.
         </p>
       </section>
     </div>
