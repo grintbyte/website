@@ -1,0 +1,62 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const contact = (await getEntry("contact", "contact"))!.data;
+const email = contact.enquiry_email || contact.email;
+const updated = "19 October 2026";
+---
+
+<BaseLayout
+  title="Refund Policy"
+  description="When and how you get your money back on a GrintByte product."
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Refund policy</h1>
+    <p class="mt-3 text-sm text-ink-soft">Last updated: {updated}</p>
+
+    <div class="prose-grint mt-8 space-y-8 text-base leading-relaxed">
+      <section>
+        <h2 class="text-xl font-bold">The short version</h2>
+        <p class="mt-3">
+          If a product does not work as described on its product page and we cannot fix it for you,
+          you get a full refund. Ask within 14 days of your purchase.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">How to ask</h2>
+        <p class="mt-3">
+          Email <a href={`mailto:${email}`} class="text-brand underline">{email}</a> with the email
+          address you used at checkout, the product name and a short description of the problem.
+          Most issues turn out to be quick fixes, so we will first try to solve it with you. If we
+          cannot get the product working as described, we refund the full purchase price, no
+          further questions.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">What is covered</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>The product does not do what its product page says, and support cannot resolve it.</li>
+          <li>The product cannot be installed or activated in an environment it claims to support.</li>
+          <li>You were charged twice, or charged for something you did not order.</li>
+        </ul>
+        <p class="mt-3">
+          We cannot offer a refund when a product works as described but you changed your mind, or
+          when a request arrives later than 14 days after the purchase. If you think your case is
+          an exception, email us anyway; we read every request.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">How the money comes back</h2>
+        <p class="mt-3">
+          Refunds are issued by our payment provider to the payment method you used at checkout.
+          We trigger the refund as soon as we approve it; depending on your bank or card issuer, it
+          usually appears within 5 to 10 business days.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

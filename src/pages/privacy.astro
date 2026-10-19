@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/paths";
 
 const contact = (await getEntry("contact", "contact"))!.data;
 const settings = (await getEntry("settings", "site"))!.data;
@@ -46,7 +47,10 @@ const usesCookies = usesGoogle || usesPixel;
         <p class="mt-3">
           Product checkout is handled entirely by our payment provider on their own site. Your
           payment details never pass through this website; the provider tells us only what we need
-          to deliver the product, such as your email address and what you bought.
+          to deliver the product, such as your email address and what you bought. If something goes
+          wrong with a purchase, our
+          <a href={withBase("/refunds")} class="text-brand underline">refund policy</a> explains how
+          to get your money back.
         </p>
       </section>
 
