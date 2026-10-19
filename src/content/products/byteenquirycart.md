@@ -23,6 +23,7 @@ free_vs_pro:
   - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
   - { feature: "Email and Discord support", free: "yes", pro: "yes" }
 links:
+  store_url: "https://wordpress.org/plugins/byteenquirycart/"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
