@@ -1,12 +1,9 @@
 ---
 import { withBase } from "../lib/paths";
 import { CATEGORIES } from "../lib/categories";
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 
 const settings = (await getEntry("settings", "site"))!.data;
-const solutions = (await getCollection("solutions")).sort(
-  (a, b) => a.data.order - b.data.order,
-);
 const year = new Date().getFullYear();
 
 // Standard simplified brand marks for the social circles (nominative use).
@@ -21,7 +18,7 @@ const socialGlyphs: Record<string, string> = {
      (see README "Brand assets"), and the real logo is drawn for light
      backgrounds. Asymmetric columns: brand block wider than the link lists. -->
 <footer class="border-t border-brand-wash bg-paper-dim">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[2fr_1fr_1fr]">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[2fr_1fr]">
     <div>
       <img
         src={withBase(settings.logo)}
@@ -67,18 +64,6 @@ const socialGlyphs: Record<string, string> = {
       </ul>
     </nav>
 
-    <nav aria-label="Solutions">
-      <h2 class="text-sm font-semibold uppercase tracking-wide text-ink">Solutions</h2>
-      <ul class="mt-4 space-y-2.5">
-        {solutions.map((s) => (
-          <li>
-            <a href={withBase(`/solutions/${s.id}`)} class="text-sm text-ink-soft hover:text-brand hover:underline">
-              {s.data.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
   </div>
   <div class="border-t border-brand-wash">
     <p class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-5 text-xs text-ink-soft">

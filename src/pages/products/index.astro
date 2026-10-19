@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductCard from "../../components/ProductCard.astro";
-import CtaBand from "../../components/CtaBand.astro";
 import { CATEGORIES } from "../../lib/categories";
 
 const products = (await getCollection("products")).sort((a, b) =>
@@ -85,12 +84,6 @@ const products = (await getCollection("products")).sort((a, b) =>
     </div>
   </section>
 
-  <CtaBand
-    title="Looking for something that is not here?"
-    body="If the product you need does not exist yet, that is usually where our custom development work starts."
-    ctaText="Request a custom build"
-    ctaHref="/solutions/custom-development"
-  />
 </BaseLayout>
 
 <script>

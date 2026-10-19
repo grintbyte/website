@@ -4,9 +4,8 @@ import { CATEGORIES } from "../lib/categories";
 import Icon from "./Icon.astro";
 import { getCollection } from "astro:content";
 
-const solutions = (await getCollection("solutions")).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+// Solutions, About and Get in Touch are hidden for now (payment provider
+// review forbids services); restore by reverting the commit that hid them.
 const products = await getCollection("products");
 const countByCategory = Object.fromEntries(
   CATEGORIES.map((c) => [c.slug, products.filter((p) => p.data.category === c.label).length]),
@@ -76,61 +75,6 @@ const logo = withBase("/images/brand/grintbyte-logo-sm.png");
         </div>
       </div>
 
-      <div data-dropdown>
-        <button
-          type="button"
-          class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim"
-          aria-expanded="false"
-          aria-controls="menu-solutions"
-        >
-          Solutions
-          <svg class="h-3.5 w-3.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div
-          id="menu-solutions"
-          class="absolute inset-x-0 top-full hidden border-b border-brand-wash bg-paper shadow-lg shadow-brand-deep/8"
-        >
-          <div class="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[1fr_16rem]">
-            <ul class="grid grid-cols-2 gap-x-6 gap-y-1 xl:grid-cols-3">
-              {solutions.map((s) => (
-                <li>
-                  <a href={withBase(`/solutions/${s.id}`)} class="group flex items-start gap-3 rounded-lg p-3 hover:bg-paper-dim">
-                    {s.data.icon && (
-                      <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-wash text-brand">
-                        <Icon name={s.data.icon} class="h-5 w-5" />
-                      </span>
-                    )}
-                    <span>
-                      <span class="block text-sm font-semibold group-hover:text-brand">{s.data.title}</span>
-                      <span class="mt-0.5 block text-xs leading-snug text-ink-soft">{s.data.short_description}</span>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div class="border-t border-brand-wash pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-              <p class="font-display text-sm font-bold">Not sure which fits?</p>
-              <p class="mt-2 text-xs leading-relaxed text-ink-soft">
-                Describe the problem and we point you to the right approach.
-              </p>
-              <a
-                href={withBase("/contact")}
-                class="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-4 py-2 text-sm font-semibold text-brand hover:bg-brand-wash"
-              >
-                Start an enquiry
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <a href={withBase("/about")} class="rounded-md px-3 py-2 text-sm font-medium hover:bg-paper-dim">About</a>
-      <a
-        href={withBase("/contact")}
-        class="brand-gradient ml-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-      >
-        Get in Touch
-      </a>
     </nav>
 
     <!-- Mobile hamburger (44px tap target) -->
@@ -180,30 +124,6 @@ const logo = withBase("/images/brand/grintbyte-logo-sm.png");
         </ul>
       </div>
 
-      <div data-accordion>
-        <button
-          type="button"
-          class="flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-3 font-medium hover:bg-paper-dim"
-          aria-expanded="false"
-        >
-          Solutions
-          <svg class="h-4 w-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <ul class="hidden pl-3">
-          {solutions.map((s) => (
-            <li>
-              <a href={withBase(`/solutions/${s.id}`)} class="flex min-h-11 items-center rounded-lg px-3 py-2.5 text-sm hover:bg-paper-dim">
-                {s.data.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <a href={withBase("/about")} class="block rounded-lg px-3 py-3 font-medium hover:bg-paper-dim">About</a>
-      <a href={withBase("/contact")} class="brand-gradient mt-2 block rounded-lg px-4 py-3 text-center font-semibold text-white">
-        Get in Touch
-      </a>
     </div>
   </nav>
 </header>

@@ -3,7 +3,6 @@ import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ProductCard from "../components/ProductCard.astro";
-import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
 import CircuitMotif from "../components/CircuitMotif.astro";
 import { withBase } from "../lib/paths";
@@ -55,12 +54,14 @@ const platformLogos: Record<string, { src: string; wordmark?: true }> = {
           >
             {home.hero_primary_cta.text}
           </a>
-          <a
-            href={withBase(home.hero_secondary_cta.url)}
-            class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash"
-          >
-            {home.hero_secondary_cta.text}
-          </a>
+          {home.hero_secondary_cta.text && (
+            <a
+              href={withBase(home.hero_secondary_cta.url)}
+              class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash"
+            >
+              {home.hero_secondary_cta.text}
+            </a>
+          )}
         </div>
       </div>
 
@@ -249,7 +250,6 @@ const platformLogos: Record<string, { src: string; wordmark?: true }> = {
     </section>
   )}
 
-  <CtaBand />
 </BaseLayout>
 
 <script>

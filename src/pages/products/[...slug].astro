@@ -1,10 +1,9 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import PricingBadge from "../../components/PricingBadge.astro";
-import CtaBand from "../../components/CtaBand.astro";
 import RevealScript from "../../components/RevealScript.astro";
 import Icon from "../../components/Icon.astro";
 import CircuitMotif from "../../components/CircuitMotif.astro";
@@ -47,6 +46,9 @@ interface Props {
 const { kind, category, product } = Astro.props;
 
 const allProducts = await getCollection("products");
+// /contact is hidden for now, so product enquiries fall back to plain email.
+const contactData = (await getEntry("contact", "contact"))!.data;
+const enquiryMailto = `mailto:${contactData.enquiry_email || contactData.email}`;
 
 // Category page data
 const categoryProducts = category
@@ -180,12 +182,6 @@ const crumbs = breadcrumbLd(
             <a href="#catalog" class="brand-gradient inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
               Browse {category.label}
             </a>
-            <a
-              href={withBase("/solutions/custom-development")}
-              class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash"
-            >
-              Request a custom build
-            </a>
           </div>
         </div>
         {/* Orbital visual (mirrors the home hero): the category's own
@@ -299,12 +295,6 @@ const crumbs = breadcrumbLd(
         </div>
       )}
     </section>
-    <CtaBand
-      title={`Need a ${category.label.replace(/s$/, "").toLowerCase()} built for you?`}
-      body="If none of these fit, we build to order on every platform we publish for."
-      ctaText="Request a custom build"
-      ctaHref="/solutions/custom-development"
-    />
     <RevealScript />
   </BaseLayout>
 )}
@@ -378,7 +368,7 @@ const crumbs = breadcrumbLd(
                 {linkButtons[0][0]}
               </a>
             ) : (
-              <a href={withBase("/contact")} class="brand-gradient inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
+              <a href={enquiryMailto} class="brand-gradient inline-flex min-h-11 items-center rounded-lg px-6 py-3 font-semibold text-white hover:opacity-90">
                 {data.status === "Coming Soon" ? "Ask for early access" : `Ask about ${data.title}`}
               </a>
             )}
@@ -610,7 +600,7 @@ const crumbs = breadcrumbLd(
                   : "Store links are being set up. Reach us directly:"}
               </p>
               <a
-                href={withBase(`/contact`)}
+                href={enquiryMailto}
                 class="brand-gradient mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
               >
                 Ask about {data.title}

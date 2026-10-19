@@ -6,7 +6,7 @@
     "url": "/products"
   },
   "hero_secondary_cta": {
-    "text": "Let's go custom",
+    "text": "",
     "url": "/contact"
   },
   "stats": [
@@ -18,5 +18,5 @@
   "show_stats": false,
   "show_testimonials": false,
   "show_featured": true,
-  "show_solutions": true
+  "show_solutions": false
 }
