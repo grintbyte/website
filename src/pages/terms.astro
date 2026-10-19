@@ -9,88 +9,123 @@ const updated = "19 October 2026";
 ---
 
 <BaseLayout
-  title="Terms and Conditions"
+  title="Terms of Service"
   description="The terms that apply when you use this site or buy a GrintByte product."
 >
   <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Terms and conditions</h1>
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Terms of service</h1>
     <p class="mt-3 text-sm text-ink-soft">Last updated: {updated}</p>
 
     <div class="prose-grint mt-8 space-y-8 text-base leading-relaxed">
+      <p>
+        Welcome to GrintByte ("we", "us", or "our"). By accessing our website, purchasing our
+        software licenses, or downloading our digital products, you agree to be bound by these
+        Terms of Service.
+      </p>
+
       <section>
-        <h2 class="text-xl font-bold">Who we are</h2>
+        <h2 class="text-xl font-bold">1. Nature of the products</h2>
         <p class="mt-3">
-          GrintByte is a digital products studio that builds and sells software for platforms such
-          as WordPress. These terms apply when you browse this site or buy one of our products. By
-          using the site or completing a purchase you agree to them. If you do not agree, please do
-          not use the site.
+          GrintByte is a digital software studio providing pre-built software, extensions, digital
+          plugins and software components. We offer digital licenses for off-the-shelf software
+          products delivered electronically.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Products and purchases</h2>
+        <h2 class="text-xl font-bold">2. Merchant of Record (Lemon Squeezy)</h2>
         <p class="mt-3">
-          Our paid products are one-time purchases unless the product page says otherwise. Checkout
-          and payment are handled by our payment provider on their own site; your payment details
-          never pass through this website. After payment you receive the product as a digital
-          download or a download link by email.
+          Our order processing, payment settlement and tax compliance are facilitated by our
+          Merchant of Record, Lemon Squeezy (Lemon Squeezy, LLC). When you purchase a license from
+          GrintByte:
         </p>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>Lemon Squeezy is the authorized reseller and Merchant of Record for the transaction.</li>
+          <li>
+            Your payment details are processed under Lemon Squeezy's
+            <a href="https://www.lemonsqueezy.com/terms" rel="noopener" class="text-brand underline">Terms of Service</a>
+            and
+            <a href="https://www.lemonsqueezy.com/privacy" rel="noopener" class="text-brand underline">Privacy Policy</a>.
+          </li>
+          <li>
+            Invoicing, local tax calculation (VAT/GST/Sales Tax) and payment processing security
+            are managed by Lemon Squeezy.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">3. Software licensing and usage</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>
+            Upon successful payment, you are granted a non-exclusive, non-transferable license to
+            use the purchased digital product according to the license selected at checkout.
+          </li>
+          <li>
+            You may not redistribute, resell, lease, sublicense or share the raw software files or
+            license keys, in whole or in part, unless explicitly permitted under your specific
+            license tier.
+          </li>
+          <li>
+            Modification of open-source components is governed by their respective licenses (such
+            as the GPL), but automated product updates and official technical support remain tied
+            strictly to a valid, active license key.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">4. Digital delivery</h2>
         <p class="mt-3">
-          Prices are shown on each product page in US dollars. We may change prices at any time,
-          but a change never affects a purchase you have already completed.
+          All software packages and license keys are delivered electronically and automatically
+          upon payment confirmation. You will receive an immediate on-screen download link and an
+          automated confirmation email containing your license credentials.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Licence and acceptable use</h2>
+        <h2 class="text-xl font-bold">5. Product updates and technical support</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>
+            An active license grants you access to product updates and technical support for the
+            duration of the license period stated at checkout.
+          </li>
+          <li>
+            Technical support covers bug fixes, software compatibility updates and setup guidance
+            for the software as provided. It does not cover bespoke engineering, unverified
+            third-party plugin conflicts outside our control, or server environment
+            troubleshooting.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">6. Warranty and liability</h2>
         <p class="mt-3">
-          A purchase is for your own use, on sites you own or manage. You may not resell the
-          product, redistribute it, share license keys or download links, or present our work as
-          your own. Where a product page or checkout states specific licence terms, such as a site
-          limit, those terms apply to that product.
-        </p>
-        <p class="mt-3">
-          Free versions of our WordPress plugins distributed through wordpress.org are licensed
-          under the GPL, as wordpress.org requires.
+          Our software is provided "as is" and "as available", without warranty of any kind,
+          express or implied. While we thoroughly test our products against standard platform
+          releases, GrintByte does not guarantee that the software will be error-free or operate
+          uninterrupted across every individual server configuration or third-party environment.
+          In no event shall GrintByte be liable for any direct, indirect, incidental or
+          consequential damages resulting from the use or inability to use our products. Nothing
+          in this section limits the promises in our
+          <a href={withBase("/refunds")} class="text-brand underline">refund policy</a> or rights
+          that the law of your country grants you and does not allow to be limited.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Updates and support</h2>
+        <h2 class="text-xl font-bold">7. Changes to terms</h2>
         <p class="mt-3">
-          Paid products include updates and email support at
-          <a href={`mailto:${email}`} class="text-brand underline">{email}</a>. If a purchase ever
-          includes a limited update or support period, it is stated clearly at checkout before you
-          pay. We answer support email during our working hours, {contact.working_hours}.
+          We reserve the right to revise these Terms of Service at any time. Any changes will be
+          posted on this page with an updated modification date.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Refunds</h2>
+        <h2 class="text-xl font-bold">8. Contact</h2>
         <p class="mt-3">
-          If a product does not work as described and we cannot fix it, you get your money back.
-          The details, including the time window and how to ask, are in our
-          <a href={withBase("/refunds")} class="text-brand underline">refund policy</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold">Warranties and liability</h2>
-        <p class="mt-3">
-          We build our products with care and support them actively, but software interacts with
-          environments we do not control, such as your hosting, themes and other plugins. Beyond
-          what the refund policy promises, products are provided as is, and our total liability for
-          any claim related to a product is limited to the amount you paid for it. Nothing in these
-          terms limits rights that the law of your country grants you and does not allow to be
-          limited.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold">Changes and contact</h2>
-        <p class="mt-3">
-          If these terms change, the date at the top changes with it, and the new terms apply from
-          that date onward. Questions about them? Email
+          For any questions regarding these terms, please contact us at
           <a href={`mailto:${email}`} class="text-brand underline">{email}</a>.
         </p>
       </section>
