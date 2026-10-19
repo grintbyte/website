@@ -35,6 +35,7 @@ const products = defineCollection({
         demo_url: z.string().optional(),
         docs_url: z.string().optional(),
         buy_url: z.string().optional(),
+        video_url: z.string().optional(),
       })
       .default({}),
     featured: z.boolean().default(false),

@@ -82,6 +82,7 @@ collections:
           - { name: demo_url, label: Demo URL, widget: string, required: false }
           - { name: docs_url, label: Docs URL, widget: string, required: false }
           - { name: buy_url, label: Buy URL, widget: string, required: false }
+          - { name: video_url, label: Video URL, widget: string, required: false, hint: "YouTube link; plays in a modal from the product hero" }
       - { name: featured, label: Featured on home page, widget: boolean, default: false }
       - name: status
         label: Status
