@@ -1,18 +1,9 @@
 ---
-import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withBase } from "../lib/paths";
 
-const contact = (await getEntry("contact", "contact"))!.data;
-const settings = (await getEntry("settings", "site"))!.data;
-const email = contact.enquiry_email || contact.email;
+// The owner wants this page to match their supplied draft word for word, so
+// the copy is verbatim and nothing here adapts to CMS settings.
 const updated = "9 October 2026";
-
-// The copy below adapts to which integrations are switched on in the CMS,
-// so the policy never claims less tracking than the site actually does.
-const usesGoogle = Boolean(settings.ga4_id || settings.gtm_id);
-const usesPixel = Boolean(settings.meta_pixel_id);
-const usesCookies = usesGoogle || usesPixel;
 ---
 
 <BaseLayout
@@ -20,43 +11,42 @@ const usesCookies = usesGoogle || usesPixel;
   description="What GrintByte collects when you use this site, why, and how to reach us about it."
 >
   <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Privacy policy</h1>
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Privacy Policy</h1>
     <p class="mt-3 text-sm text-ink-soft">Last updated: {updated}</p>
 
     <div class="prose-grint mt-8 space-y-8 text-base leading-relaxed">
       <section>
-        <h2 class="text-xl font-bold">The short version</h2>
+        <h2 class="text-xl font-bold">The Short Version</h2>
         <p class="mt-3">
-          {usesCookies
-            ? "This site collects as little data as possible. The analytics tools listed below may set cookies to measure whether our marketing works; nothing is sold or shared for marketing purposes. The personal information we receive is limited to what you provide when you contact us or purchase a software license, used solely to support you and deliver your digital products."
-            : "This site collects as little data as possible. We do not use third-party advertising trackers, we do not set tracking cookies, and nothing is sold or shared for marketing purposes. The personal information we receive is limited to what you provide when you contact us or purchase a software license, used solely to support you and deliver your digital products."}
+          This site collects as little data as possible. We do not use third-party advertising
+          trackers, we do not set tracking cookies, and nothing is sold or shared for marketing
+          purposes. The personal information we receive is limited to what you provide through our
+          contact forms or when purchasing software licenses, used solely to support you and
+          deliver your digital products.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Purchases and payments</h2>
+        <h2 class="text-xl font-bold">Purchases and Payments</h2>
         <p class="mt-3">
-          All product order processing, payment collection and digital delivery are handled
-          directly by our Merchant of Record, Lemon Squeezy (Lemon Squeezy, LLC).
+          All product order processing, payment collection, and digital delivery are handled
+          directly by our Merchant of Record, <em>Lemon Squeezy</em> (Lemon Squeezy, LLC).
         </p>
         <p class="mt-3">
-          Your sensitive payment information, such as credit card numbers or billing details, is
+          Your sensitive payment information (such as credit card numbers or billing details) is
           submitted directly to Lemon Squeezy and never passes through or gets stored on our
           servers. Lemon Squeezy securely processes transactions and provides us only with the
-          operational data required to deliver and manage your digital software licenses, such as
-          your name, email address, order reference number and items purchased. For more details,
+          operational data required to deliver and manage your digital software licenses (such as
+          your name, email address, order reference number, and items purchased). For more details,
           please review
           the <a href="https://www.lemonsqueezy.com/privacy" rel="noopener" class="text-brand underline">Lemon Squeezy Privacy Policy</a>.
-          If something goes wrong with a purchase,
-          our <a href={withBase("/refunds")} class="text-brand underline">refund policy</a> explains how
-          to get your money back.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Enquiries</h2>
+        <h2 class="text-xl font-bold">The Contact Form</h2>
         <p class="mt-3">
-          When you send us an enquiry, we collect your name, email address, optional company name
+          When you submit an enquiry, we collect your name, email address, optional company name,
           and message strictly to assist you and respond to your questions. Your message is
           forwarded to our team and recorded securely on our administrative cloud systems to ensure
           proper follow-up. We never add your contact information to marketing or newsletter lists
@@ -65,53 +55,30 @@ const usesCookies = usesGoogle || usesPixel;
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Analytics, hosting and server logs</h2>
-        {settings.cloudflare_analytics_token && (
-          <p class="mt-3">
-            We measure traffic with Cloudflare Web Analytics, which is cookie-free and does not
-            collect personal information or track you across sites.
-          </p>
-        )}
-        {usesGoogle && (
-          <p class="mt-3">
-            We use Google Analytics{settings.gtm_id ? " (loaded through Google Tag Manager)" : ""} to
-            understand how the site is used. It sets cookies and shares usage data with Google as
-            described in
-            the <a href="https://policies.google.com/privacy" rel="noopener" class="text-brand underline">Google Privacy Policy</a>.
-          </p>
-        )}
-        {usesPixel && (
-          <p class="mt-3">
-            We use the Meta Pixel to measure the results of our advertising. It sets cookies and
-            shares visit data with Meta as described in
-            the <a href="https://www.facebook.com/privacy/policy/" rel="noopener" class="text-brand underline">Meta Privacy Policy</a>.
-          </p>
-        )}
+        <h2 class="text-xl font-bold">Hosting and Server Logs</h2>
         <p class="mt-3">
-          This website is hosted using third-party cloud infrastructure (GitHub Pages). When you
-          browse our website, hosting servers may automatically record standard access logs. This
-          technical data can include your IP address, browser type, operating system, referring URL
-          and the date and time of access. These logs are used strictly for technical performance
-          diagnostics, network stability and security monitoring, and are not combined with any
-          personally identifiable information. See
-          the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" class="text-brand underline">GitHub Privacy Statement</a> for
-          how GitHub handles these logs.
+          This website is hosted using third-party cloud infrastructure. When you browse our
+          website, hosting servers may automatically record standard access logs. This technical
+          data can include your IP address, browser type, operating system, referring URL, and the
+          date/time of access. These logs are used strictly for technical performance diagnostics,
+          network stability, and security monitoring, and are not combined with any personally
+          identifiable information.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold">Data retention and your rights</h2>
+        <h2 class="text-xl font-bold">Data Retention and Your Rights</h2>
         <p class="mt-3">
           We retain customer correspondence and support enquiries only for as long as necessary to
-          address your requests, manage your product licenses, and fulfill administrative or legal
-          obligations.
+          address your requests, manage product license renewals, and fulfill administrative or
+          legal obligations.
         </p>
         <p class="mt-3">
           If you would like to know what information we hold about you or request its deletion,
           please contact us
-          at <a href={`mailto:${email}`} class="text-brand underline">{email}</a> and we will fulfill
-          your request promptly. Any updates to this policy will be posted on this page with a
-          revised date at the top.
+          at <em><a href="mailto:team@grintbyte.com" class="text-brand underline">team@grintbyte.com</a></em> (or <a href="mailto:grintbyte@gmail.com" class="text-brand underline">grintbyte@gmail.com</a>),
+          and we will fulfill your request promptly. Any updates to this policy will be posted on
+          this page with a revised date at the top.
         </p>
       </section>
     </div>
