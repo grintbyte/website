@@ -89,6 +89,16 @@ const oneTime = data?.price?.toLowerCase().includes("one-time") ?? false;
 const cardPrice = oneTime ? data!.price!.replace(/\s*one-time\s*/i, " ").trim() : (data?.price ?? data?.pricing_type);
 const cardNote = oneTime ? "One-time payment" : data?.pricing_type;
 
+// License line (owner-directed dual licensing model, see /terms section 3):
+// free WordPress versions are GPL, Pro is under the commercial license.
+const hasFreeVersion = isWpOrg || (data?.free_vs_pro.length ?? 0) > 0;
+const licenseText =
+  data?.pricing_type === "Free"
+    ? "GPL (open source)"
+    : hasFreeVersion
+      ? "Free version: GPL. Pro: GrintByte commercial license"
+      : "GrintByte commercial license";
+
 // Hero visual: the first REAL screenshot in a browser frame (no fabricated
 // mockups); products without screenshots get a brand placeholder instead.
 const shot = data?.screenshots[0];
@@ -562,6 +572,13 @@ const crumbs = breadcrumbLd(
                   <dd class="mt-0.5 text-ink-soft">{data.compatibility}</dd>
                 </div>
               )}
+              <div>
+                <dt class="font-semibold">License</dt>
+                <dd class="mt-0.5 text-ink-soft">
+                  {licenseText}.
+                  <a href={withBase("/terms")} class="text-brand hover:underline">Licensing terms</a>
+                </dd>
+              </div>
             </dl>
           </section>
         </div>
