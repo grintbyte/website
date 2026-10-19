@@ -12,7 +12,13 @@ features:
   - "Material, texture and finish switching (leather, fabric, more)"
   - "Configurable product components and combinations"
   - "Built for furniture, interior goods and customizable products"
+screenshots:
+  - "/images/products/byte3dview/01-3d-viewer.webp"
+  - "/images/products/byte3dview/02-360-spinner.webp"
+  - "/images/products/byte3dview/03-settings.webp"
+  - "/images/products/byte3dview/04-upload-360.webp"
 links:
+  video_url: "https://youtu.be/UyM2EQjgoCc"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
