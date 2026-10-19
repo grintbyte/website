@@ -11,6 +11,17 @@ features:
   - "Standard cart and checkout for products with fixed prices"
   - "Quotation requests and direct sales combined in one storefront"
   - "Fits B2B portals, wholesale, distributors and made-to-order shops"
+free_vs_pro:
+  - { feature: "Stock-based enquiry form", free: "yes", pro: "no" }
+  - { feature: "Email notifications", free: "yes", pro: "yes" }
+  - { feature: "Email notification settings", free: "yes", pro: "yes" }
+  - { feature: "Enquiries queue for follow-up", free: "yes", pro: "yes" }
+  - { feature: "Enquiries summary", free: "yes", pro: "yes" }
+  - { feature: "Per-product switch between Request a Quote and Add to Cart", free: "no", pro: "yes" }
+  - { feature: "Enquiry by quote settings", free: "no", pro: "yes" }
+  - { feature: "Quotes bar and list", free: "no", pro: "yes" }
+  - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
+  - { feature: "Email and Discord support", free: "yes", pro: "yes" }
 links:
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
@@ -33,6 +44,10 @@ Customers get a dedicated place to collect the products they are interested in a
 ## Who it is for
 
 B2B and wholesale businesses, online retailers, manufacturers and distributors, made-to-order shops, and any store that mixes fixed-price products with products that deserve a quote first.
+
+## Free and Pro
+
+The free version handles enquiry-first selling: a stock-based enquiry form, email notifications, and a queue plus summary to follow up every request. Pro adds the quote workflow: switch any product between Request a Quote and Add to Cart, configure enquiry by quote, and manage everything from the quotes bar and list. See the comparison below for the exact split.
 
 ## Built to grow with your stack
 
