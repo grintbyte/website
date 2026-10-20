@@ -11,6 +11,13 @@ features:
   - "Automated reminder notifications to the customer"
   - "Re-engage shoppers who already showed buying intent"
   - "Follow-up workflow without manual cart tracking"
+free_vs_pro:
+  - { feature: "Cart monitoring (table of abandoned carts)", free: "yes", pro: "yes" }
+  - { feature: "Owner alerts for incomplete purchases", free: "Manual, check the dashboard", pro: "Automated, instant notifications" }
+  - { feature: "Customer reminder emails", free: "Sent manually", pro: "Sent automatically" }
+  - { feature: "Real-time cart checkout tracking", free: "no", pro: "yes" }
+  - { feature: "Automated recovery workflows (stop when the cart is recovered)", free: "no", pro: "yes" }
+  - { feature: "Admin tabs", free: "Abandoned Carts, How-To", pro: "+ Settings, Email Admin, Email Customer, Recovery Workflow" }
 links:
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
@@ -29,6 +36,10 @@ Not every customer who fills a cart finishes the purchase. Some get distracted, 
 ## Who it is for
 
 E-commerce stores and online retailers of any size: anyone watching traffic arrive, carts fill, and a chunk of checkouts never complete. ByteAbandonedCart makes better use of the traffic you already have before you spend on more.
+
+## Free and Pro
+
+The free version makes abandoned carts visible: a monitoring table plus manual follow-up, where you check the dashboard and send reminder emails yourself. Pro puts recovery on autopilot with real-time cart tracking, instant owner notifications, automated customer reminders and recovery workflows that stop on their own once the cart is recovered. See the comparison below for the exact split.
 
 ## Less manual chasing
 
