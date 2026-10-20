@@ -12,6 +12,13 @@ features:
   - "Automatic restock emails invite customers back to buy"
   - "Built-in how-to guide in the plugin settings"
   - "Developer contact (email and Discord) right in the settings"
+free_vs_pro:
+  - { feature: "Waitlist button when product stock is empty", free: "yes", pro: "yes" }
+  - { feature: "User dashboard (waitlisted items on the account page)", free: "yes", pro: "yes" }
+  - { feature: "Admin dashboard (waitlist data and customer demand)", free: "yes", pro: "yes" }
+  - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
+  - { feature: "Automated restock emails to waiting customers", free: "no", pro: "yes" }
+  - { feature: "Premium support (email and Discord, priority)", free: "no", pro: "yes" }
 links:
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
@@ -30,6 +37,10 @@ When a product runs out of stock, most interested customers leave and forget to 
 ## Demand data you did not have before
 
 Waitlists double as a demand signal: products with long waitlists tell you what to reorder first and how much, before you spend anything on promotion.
+
+## Free and Pro
+
+The free version covers the waitlist itself: the button on out-of-stock products, the customer's waitlisted items on their account page, the admin dashboard and the built-in guide. Pro adds the recovery half: automated restock emails that bring waiting customers back the moment stock returns, plus priority support over email and Discord. See the comparison below for the exact split.
 
 ## Who it is for
 
