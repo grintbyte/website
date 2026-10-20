@@ -1,5 +1,5 @@
 ---
-title: "Byte3DView"
+title: "Byte3DView Woo"
 category: "WordPress Plugins"
 short_description: "Interactive 3D product visualization for e-commerce. Customers rotate products 360 degrees and customize colors, materials and finishes in real time, before they buy."
 icon: "/images/products/byte3dview.png"

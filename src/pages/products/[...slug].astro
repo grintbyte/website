@@ -391,14 +391,10 @@ const crumbs = breadcrumbLd(
                 {data.status === "Coming Soon" ? "Ask for early access" : `Ask about ${data.title}`}
               </a>
             )}
-            {linkButtons.length > 1 ? (
+            {linkButtons.length > 1 && (
               <a href={linkButtons[1][1]} rel="noopener" class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash">
                 {linkButtons[1][2] && <Icon name={linkButtons[1][2]} class="h-4.5 w-4.5" />}
                 {linkButtons[1][0]}
-              </a>
-            ) : data.features.length > 0 && (
-              <a href="#features" class="inline-flex min-h-11 items-center rounded-lg border border-brand/30 px-6 py-3 font-semibold text-brand hover:bg-brand-wash">
-                See the features
               </a>
             )}
           </div>
