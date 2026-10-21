@@ -22,7 +22,15 @@ free_vs_pro:
   - { feature: "Quotes bar and list", free: "no", pro: "yes" }
   - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
   - { feature: "Email and Discord support", free: "yes", pro: "yes" }
+screenshots:
+  - "/images/products/byteenquirycart/01-quote-list.webp"
+  - "/images/products/byteenquirycart/02-enquiry-form.webp"
+  - "/images/products/byteenquirycart/03-enquiry-queue.webp"
+  - "/images/products/byteenquirycart/04-quote-settings.webp"
+  - "/images/products/byteenquirycart/05-email-settings.webp"
+  - "/images/products/byteenquirycart/06-email-notification.webp"
 links:
+  video_url: "https://youtu.be/fPmJNKwbKGw"
   store_url: "https://wordpress.org/plugins/byteenquirycart/"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
