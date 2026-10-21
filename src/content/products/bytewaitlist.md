@@ -19,7 +19,12 @@ free_vs_pro:
   - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
   - { feature: "Automated restock emails to waiting customers", free: "no", pro: "yes" }
   - { feature: "Premium support (email and Discord, priority)", free: "no", pro: "yes" }
+screenshots:
+  - "/images/products/bytewaitlist/01-join-waitlist.webp"
+  - "/images/products/bytewaitlist/02-my-waitlist.webp"
+  - "/images/products/bytewaitlist/03-settings.webp"
 links:
+  video_url: "https://youtu.be/lFGMYTzZ1EQ"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: false
 status: "Available"
