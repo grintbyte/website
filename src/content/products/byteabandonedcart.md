@@ -18,7 +18,14 @@ free_vs_pro:
   - { feature: "Real-time cart checkout tracking", free: "no", pro: "yes" }
   - { feature: "Automated recovery workflows (stop when the cart is recovered)", free: "no", pro: "yes" }
   - { feature: "Admin tabs", free: "Abandoned Carts, How-To", pro: "+ Settings, Email Admin, Email Customer, Recovery Workflow" }
+screenshots:
+  - "/images/products/byteabandonedcart/01-abandoned-carts.webp"
+  - "/images/products/byteabandonedcart/02-recovery-email.webp"
+  - "/images/products/byteabandonedcart/03-settings.webp"
+  - "/images/products/byteabandonedcart/04-email-admin.webp"
+  - "/images/products/byteabandonedcart/05-email-customer.webp"
 links:
+  video_url: "https://youtu.be/EAZuBWTl6Ec"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
