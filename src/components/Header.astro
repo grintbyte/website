@@ -10,6 +10,8 @@ const products = await getCollection("products");
 const countByCategory = Object.fromEntries(
   CATEGORIES.map((c) => [c.slug, products.filter((p) => p.data.category === c.label).length]),
 );
+// Only platforms that actually have products count toward the headline.
+const platformCount = new Set(products.map((p) => p.data.category)).size;
 const logo = withBase("/images/brand/grintbyte-logo-sm.png");
 ---
 
@@ -62,7 +64,7 @@ const logo = withBase("/images/brand/grintbyte-logo-sm.png");
             <div class="border-t border-brand-wash pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
               <p class="font-display text-sm font-bold">The full catalog</p>
               <p class="mt-2 text-xs leading-relaxed text-ink-soft">
-                {products.length} products across {CATEGORIES.length} platforms, with filters and search.
+                {products.length} products across {platformCount} {platformCount === 1 ? "platform" : "platforms"}, with filters and search.
               </p>
               <a
                 href={withBase("/products")}

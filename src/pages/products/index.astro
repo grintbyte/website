@@ -7,6 +7,9 @@ import { CATEGORIES } from "../../lib/categories";
 const products = (await getCollection("products")).sort((a, b) =>
   a.data.title.localeCompare(b.data.title),
 );
+// Count only platforms that actually have products, so the headline never
+// overstates the catalog (6 WordPress plugins is 1 platform, not 7).
+const platformCount = new Set(products.map((p) => p.data.category)).size;
 ---
 
 <BaseLayout
@@ -17,7 +20,7 @@ const products = (await getCollection("products")).sort((a, b) =>
     <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Product catalog</h1>
     <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-soft">
       {products.length > 0
-        ? `${products.length} products across ${CATEGORIES.length} platforms. Filter by platform or search by name.`
+        ? `${products.length} products across ${platformCount} ${platformCount === 1 ? "platform" : "platforms"}. Filter by platform or search by name.`
         : `The catalog spans ${CATEGORIES.length} platforms. The first product listings are on their way.`}
     </p>
 
