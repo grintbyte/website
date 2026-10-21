@@ -14,7 +14,14 @@ features:
   - "Fixed-amount shipping fees for predictable charges"
   - "Bulk updates across many products at once"
   - "Per-product overrides for items with unique shipping needs"
+screenshots:
+  - "/images/products/byteshipper/01-checkout-couriers.webp"
+  - "/images/products/byteshipper/02-courier-settings.webp"
+  - "/images/products/byteshipper/03-courier-rates.webp"
+  - "/images/products/byteshipper/04-shipping-mode.webp"
+  - "/images/products/byteshipper/05-shipping-zone.webp"
 links:
+  video_url: "https://youtu.be/uH5ftYADiZM"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
 status: "Available"
