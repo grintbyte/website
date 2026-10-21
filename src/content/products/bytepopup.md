@@ -26,7 +26,13 @@ free_vs_pro:
   - { feature: "Create, clone and reuse your own templates", free: "no", pro: "yes" }
   - { feature: "Built-in how-to guide", free: "yes", pro: "yes" }
   - { feature: "Email and Discord support", free: "yes", pro: "yes" }
+screenshots:
+  - "/images/products/bytepopup/01-popup-live.webp"
+  - "/images/products/bytepopup/02-popup-editor.webp"
+  - "/images/products/bytepopup/03-page-targeting.webp"
+  - "/images/products/bytepopup/04-popup-list.webp"
 links:
+  video_url: "https://youtu.be/ZZm7nixf0vA"
   store_url: "https://wordpress.org/plugins/bytepopup/"
   buy_url: "https://grintbyte.lemonsqueezy.com/buy/REPLACE-WITH-VARIANT-UUID"
 featured: true
