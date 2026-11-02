@@ -112,8 +112,16 @@ The category page (`/products/<slug>`), nav dropdown, footer and filters all
 generate from `categories.ts`. Product URLs are nested under their category
 (`/products/<category>/<product>`, matching the breadcrumb); the old flat
 `/products/<product>` URLs render as redirect stubs to the canonical page.
-Product filenames must still never equal a category slug (stubs and category
-pages share the single-segment namespace).
+
+Product permalinks are editable: the **Permalink (URL slug)** field in the CMS
+(Products, frontmatter key `permalink`) overrides the markdown filename, e.g.
+for SEO/Ads keywords. When a custom permalink is set, the previous
+`/products/<category>/<filename>` URL also becomes a redirect stub, so indexed
+links keep working. Permalinks must be unique and must never equal a category
+slug (stubs and category pages share the single-segment namespace); the build
+fails loudly on a collision. The field is deliberately NOT named `slug`:
+Astro's glob loader treats a frontmatter `slug` as the entry id, which would
+erase the original filename needed for the redirects.
 
 ## Contact form
 

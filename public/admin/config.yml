@@ -34,6 +34,7 @@ collections:
     summary: "{{title}} ({{category}})"
     fields:
       - { name: title, label: Title, widget: string }
+      - { name: permalink, label: "Permalink (URL slug)", widget: string, required: false, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "huruf kecil, angka, dan tanda hubung saja"], hint: "Kosongkan untuk memakai nama file. Jangan samakan dengan slug kategori atau produk lain. Mengubah permalink otomatis membuat redirect dari URL lama." }
       - name: category
         label: Category
         widget: select

@@ -27,6 +27,11 @@ const products = defineCollection({
     free_vs_pro: z
       .array(z.object({ feature: z.string(), free: z.string(), pro: z.string() }))
       .default([]),
+    // Custom permalink (owner-directed, for SEO/Ads keywords): overrides the
+    // filename as the URL slug; the old id-based URLs become redirect stubs.
+    // Named "permalink", NOT "slug": Astro's glob loader hijacks a frontmatter
+    // `slug` field as the entry id, which would erase the original filename.
+    permalink: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/).optional(),
     version: z.string().optional(),
     compatibility: z.string().optional(),
     links: z

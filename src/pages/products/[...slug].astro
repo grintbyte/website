@@ -23,6 +23,19 @@ import { breadcrumbLd } from "../../lib/seo";
  */
 export async function getStaticPaths() {
   const products = await getCollection("products");
+
+  // A slug collision would silently fight over one route; fail the build instead.
+  const categorySlugs = new Set(CATEGORIES.map((c) => c.slug));
+  const seen = new Set<string>();
+  for (const p of products) {
+    const slug = p.data.permalink || p.id;
+    if (categorySlugs.has(slug))
+      throw new Error(`Product permalink "${slug}" (${p.id}.md) equals a category slug; pick another.`);
+    if (seen.has(slug))
+      throw new Error(`Product permalink "${slug}" is used by more than one product; permalinks must be unique.`);
+    seen.add(slug);
+  }
+
   const categoryPaths = CATEGORIES.map((category) => ({
     params: { slug: category.slug },
     props: { kind: "category" as const, category, product: null },
@@ -31,10 +44,19 @@ export async function getStaticPaths() {
     params: { slug: productPath(product).replace("/products/", "") },
     props: { kind: "product" as const, category: null, product },
   }));
-  const redirectPaths = products.map((product) => ({
-    params: { slug: product.id },
-    props: { kind: "redirect" as const, category: null, product },
-  }));
+  // Old URLs keep working: the flat /products/<id> shape always redirects, and
+  // when a custom slug overrides the filename, the previous nested
+  // /products/<category>/<id> URL redirects too.
+  const redirectPaths = products.flatMap((product) => {
+    const stubs = [{ params: { slug: product.id }, props: { kind: "redirect" as const, category: null, product } }];
+    if (product.data.permalink && product.data.permalink !== product.id) {
+      stubs.push({
+        params: { slug: `${categoryByLabel(product.data.category)!.slug}/${product.id}` },
+        props: { kind: "redirect" as const, category: null, product },
+      });
+    }
+    return stubs;
+  });
   return [...categoryPaths, ...productPaths, ...redirectPaths];
 }
 
