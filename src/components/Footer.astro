@@ -18,7 +18,7 @@ const socialGlyphs: Record<string, string> = {
      (see README "Brand assets"), and the real logo is drawn for light
      backgrounds. Asymmetric columns: brand block wider than the link lists. -->
 <footer class="border-t border-brand-wash bg-paper-dim">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[2fr_1fr]">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[2fr_1fr_1fr]">
     <div>
       <img
         src={withBase(settings.logo)}
@@ -64,6 +64,25 @@ const socialGlyphs: Record<string, string> = {
       </ul>
     </nav>
 
+    <nav aria-label="Company">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-ink">Company</h2>
+      <ul class="mt-4 space-y-2.5">
+        {[
+          ["About", "/about"],
+          ["Blog", "/blog"],
+          ["Docs", "/docs"],
+          ["Support", "/support"],
+          ["Security", "/security"],
+          ["Affiliates", "/affiliates"],
+        ].map(([label, href]) => (
+          <li>
+            <a href={withBase(href)} class="text-sm text-ink-soft hover:text-brand hover:underline">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
   <div class="border-t border-brand-wash">
     <p class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-5 text-xs text-ink-soft">

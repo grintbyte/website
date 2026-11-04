@@ -1,0 +1,66 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/paths";
+
+const contact = (await getEntry("contact", "contact"))!.data;
+const email = contact.enquiry_email || contact.email;
+---
+
+<BaseLayout
+  title="Support"
+  description="How to get help with GrintByte products: documentation, built-in guides and direct email support."
+>
+  <section class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Support</h1>
+    <p class="mt-3 text-base leading-relaxed text-ink-soft">
+      Stuck on something? Here is every way to get unstuck, fastest first.
+    </p>
+
+    <div class="mt-10 space-y-6">
+      <section class="rounded-xl border border-brand-wash p-6">
+        <h2 class="text-lg font-bold">1. The built-in How-To guide</h2>
+        <p class="mt-2 leading-relaxed text-ink-soft">
+          Every GrintByte plugin ships a How-To tab right in its settings screen, covering setup
+          and each option. It is the fastest answer because it is already installed.
+        </p>
+      </section>
+
+      <section class="rounded-xl border border-brand-wash p-6">
+        <h2 class="text-lg font-bold">2. Documentation</h2>
+        <p class="mt-2 leading-relaxed text-ink-soft">
+          Guides and references per product live in
+          the <a href={withBase("/docs")} class="text-brand hover:underline">docs</a>.
+        </p>
+      </section>
+
+      <section class="rounded-xl border border-brand-wash p-6">
+        <h2 class="text-lg font-bold">3. Email the developers</h2>
+        <p class="mt-2 leading-relaxed text-ink-soft">
+          Write to <a href={`mailto:${email}`} class="text-brand hover:underline">{email}</a> with
+          the product name, what you expected, what happened instead, and your WordPress and PHP
+          versions. Screenshots help. The people who answer are the people who wrote the code.
+        </p>
+        <p class="mt-2 leading-relaxed text-ink-soft">
+          We answer during working hours, {contact.working_hours}. Pro license holders get
+          priority.
+        </p>
+      </section>
+
+      <section class="rounded-xl border border-brand-wash p-6">
+        <h2 class="text-lg font-bold">4. Discord</h2>
+        <p class="mt-2 leading-relaxed text-ink-soft">
+          Each plugin's settings screen links the developer's Discord for quick questions and
+          follow-ups.
+        </p>
+      </section>
+    </div>
+
+    <p class="mt-10 text-sm leading-relaxed text-ink-soft">
+      Something wrong with a purchase instead? See
+      the <a href={withBase("/refunds")} class="text-brand hover:underline">refund policy</a>. Found
+      a security issue? Head to
+      the <a href={withBase("/security")} class="text-brand hover:underline">security page</a>.
+    </p>
+  </section>
+</BaseLayout>

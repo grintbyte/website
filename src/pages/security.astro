@@ -1,0 +1,60 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const contact = (await getEntry("contact", "contact"))!.data;
+const email = contact.enquiry_email || contact.email;
+---
+
+<BaseLayout
+  title="Security"
+  description="How to report a security vulnerability in a GrintByte product or in this website."
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Security</h1>
+    <p class="mt-3 text-base leading-relaxed text-ink-soft">
+      We take security reports seriously and are grateful to everyone who reports responsibly.
+    </p>
+
+    <div class="prose-grint mt-8 space-y-8 text-base leading-relaxed">
+      <section>
+        <h2 class="text-xl font-bold">Where to report</h2>
+        <p class="mt-3">
+          Found a vulnerability in one of our plugins, or in this website?
+          Email <a href={`mailto:${email}`} class="text-brand underline">{email}</a> with "Security" in
+          the subject line. Include the product and version, steps to reproduce, and a proof of
+          concept if you have one.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">What we ask</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>Test only against your own sites, accounts and data.</li>
+          <li>Do not run denial-of-service tests, spam, or social engineering against us or our users.</li>
+          <li>Access, change or keep only the minimum data needed to demonstrate the issue.</li>
+          <li>Give us time to ship a fix before disclosing the issue publicly.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Usually not accepted</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5">
+          <li>Automated scanner output without a working proof of concept.</li>
+          <li>Missing security headers or email authentication records without a demonstrated exploit.</li>
+          <li>Issues that require a compromised device or stolen credentials to begin with.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">What to expect</h2>
+        <p class="mt-3">
+          We aim to acknowledge every report within 5 business days, keep you posted while we fix
+          valid issues, and credit you when the fix ships if you want the credit. We do not run a
+          paid bug bounty, and we will not take legal action against research done in good faith
+          within the rules above.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

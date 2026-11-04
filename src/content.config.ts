@@ -164,8 +164,32 @@ const settings = defineCollection({
   }),
 });
 
+const posts = defineCollection({
+  loader: glob({ base: "./src/content/posts", pattern: "**/*.md" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    cover: z.string().optional(),
+  }),
+});
+
+const docs = defineCollection({
+  loader: glob({ base: "./src/content/docs", pattern: "**/*.md" }),
+  schema: z.object({
+    title: z.string(),
+    // Product title the doc belongs to; empty groups it under "General".
+    product: z.string().optional(),
+    description: z.string().optional(),
+    order: z.number().default(99),
+  }),
+});
+
 export const collections = {
   products,
+  posts,
+  docs,
   solutions,
   projects,
   testimonials,

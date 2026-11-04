@@ -1,0 +1,51 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/paths";
+
+const contact = (await getEntry("contact", "contact"))!.data;
+const email = contact.enquiry_email || contact.email;
+---
+
+<BaseLayout
+  title="Affiliates"
+  description="The GrintByte affiliate program: earn a commission recommending our WordPress plugins."
+>
+  <section class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Affiliates</h1>
+    <p class="mt-3 text-base leading-relaxed text-ink-soft">
+      Recommend GrintByte products to your audience and earn a commission on every sale you send
+      our way.
+    </p>
+
+    <div class="prose-grint mt-8 space-y-8 text-base leading-relaxed">
+      <section>
+        <h2 class="text-xl font-bold">The program is opening soon</h2>
+        <p class="mt-3">
+          We are setting the affiliate program up together with our checkout provider, so tracking
+          and payouts are handled automatically. Commission rates and payout terms will be
+          published on this page when the program opens.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Get in early</h2>
+        <p class="mt-3">
+          Run a blog, a YouTube channel, an agency or a community around WordPress or e-commerce?
+          Email <a href={`mailto:${email}`} class="text-brand underline">{email}</a> with a link to
+          where you would promote us, and we will contact you first when the program opens.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">What you would promote</h2>
+        <p class="mt-3">
+          Six WordPress plugins and counting, each with a live demo video and real screenshots on
+          its <a href={withBase("/products")} class="text-brand underline">product page</a>: popups,
+          enquiry and quote carts, shipping rates, abandoned cart recovery, 3D product viewers and
+          restock waitlists.
+        </p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

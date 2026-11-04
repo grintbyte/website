@@ -1,0 +1,58 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
+
+const contact = (await getEntry("contact", "contact"))!.data;
+const email = contact.enquiry_email || contact.email;
+const docs = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+
+// Group docs by the product they document; docs without one go under General.
+const groups = new Map<string, typeof docs>();
+for (const doc of docs) {
+  const key = doc.data.product || "General";
+  groups.set(key, [...(groups.get(key) ?? []), doc]);
+}
+---
+
+<BaseLayout
+  title="Docs"
+  description="Documentation for GrintByte products: setup guides, how-tos and references."
+>
+  <section class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Docs</h1>
+    <p class="mt-3 text-base leading-relaxed text-ink-soft">
+      Setup guides and references, organized per product.
+    </p>
+
+    {docs.length === 0 ? (
+      <div class="mt-10 rounded-xl border border-dashed border-brand-wash px-6 py-16 text-center">
+        <p class="font-display text-lg font-bold">Documentation is being written</p>
+        <p class="mt-2 text-sm text-ink-soft">
+          Every plugin already ships a built-in How-To tab in its settings, and for anything else
+          we answer at <a href={`mailto:${email}`} class="text-brand hover:underline">{email}</a>.
+        </p>
+      </div>
+    ) : (
+      <div class="mt-10 space-y-10">
+        {[...groups.entries()].map(([group, entries]) => (
+          <section>
+            <h2 class="text-xl font-bold">{group}</h2>
+            <ul class="mt-4 space-y-3">
+              {entries.map((doc) => (
+                <li>
+                  <a href={withBase(`/docs/${doc.id}`)} class="group block rounded-xl border border-brand-wash p-5 transition-shadow hover:shadow-md hover:shadow-brand-deep/8">
+                    <span class="font-semibold group-hover:text-brand">{doc.data.title}</span>
+                    {doc.data.description && (
+                      <span class="mt-1 block text-sm text-ink-soft">{doc.data.description}</span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

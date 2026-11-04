@@ -96,6 +96,33 @@ collections:
         default: Available
       - { name: body, label: Description, widget: markdown }
 
+  - name: posts
+    label: Blog posts
+    folder: src/content/posts
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{date}})"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Excerpt, widget: text, hint: "Satu-dua kalimat ringkasan; tampil di daftar blog dan meta description." }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: tags, label: Tags, widget: list, required: false, field: { name: tag, label: Tag, widget: string } }
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - { name: body, label: Body, widget: markdown }
+
+  - name: docs
+    label: Docs
+    folder: src/content/docs
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{product}})"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: product, label: Product, widget: string, required: false, hint: "Nama produk persis seperti judulnya (mis. BytePopup); kosongkan untuk dokumen umum." }
+      - { name: description, label: Short description, widget: string, required: false }
+      - { name: order, label: Display order, widget: number, default: 99 }
+      - { name: body, label: Body, widget: markdown }
+
   - name: solutions
     label: Solutions
     folder: src/content/solutions

@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs");
+  return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+}
+
+interface Props {
+  doc: CollectionEntry<"docs">;
+}
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+---
+
+<BaseLayout title={doc.data.title} description={doc.data.description ?? `${doc.data.title} documentation`}>
+  <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
+      <a href={withBase("/docs")} class="hover:text-brand hover:underline">Docs</a>
+      {doc.data.product && (
+        <>
+          <span aria-hidden="true"> / </span>
+          <span>{doc.data.product}</span>
+        </>
+      )}
+      <span aria-hidden="true"> / </span>
+      <span aria-current="page">{doc.data.title}</span>
+    </nav>
+    <h1 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+      {doc.data.title}
+    </h1>
+    <div class="prose-grint mt-8">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
