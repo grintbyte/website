@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import { withBase } from "../lib/paths";
+
+/** Left blog column (owner-directed, sweetcode-style): recent posts by year. */
+interface Props {
+  currentId?: string;
+}
+const { currentId } = Astro.props;
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const byYear = new Map<number, typeof posts>();
+for (const post of posts.slice(0, 15)) {
+  const y = post.data.date.getFullYear();
+  byYear.set(y, [...(byYear.get(y) ?? []), post]);
+}
+---
+
+<nav aria-label="Recent posts" class="sticky top-24">
+  <h2 class="font-display text-base font-bold">Recent posts</h2>
+  {[...byYear.entries()].map(([year, entries]) => (
+    <div class="mt-4">
+      <p class="text-sm font-semibold text-ink">{year}</p>
+      <ul class="mt-2 space-y-2 border-l border-brand-wash pl-3">
+        {entries.map((post) => (
+          <li>
+            <a
+              href={withBase(`/blog/${post.id}`)}
+              aria-current={post.id === currentId ? "page" : undefined}
+              class={`block text-sm leading-snug hover:text-brand hover:underline ${post.id === currentId ? "font-semibold text-brand" : "text-ink-soft"}`}
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>
