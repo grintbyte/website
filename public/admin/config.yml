@@ -46,6 +46,10 @@ collections:
           - Dolibarr Modules
           - Chrome Extensions
           - Software Platforms
+          - ERPNext Apps
+          - Business Playbooks
+          - Operational SOP Kits
+          - Professional Kits
       - { name: short_description, label: Short description, widget: text }
       - { name: icon, label: Icon / thumbnail, widget: image, required: false }
       - name: screenshots

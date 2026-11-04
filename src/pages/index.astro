@@ -79,7 +79,7 @@ const platformLogos: Record<string, { src: string; wordmark?: true }> = {
           class="animate-float absolute left-1/2 top-1/2 h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 object-contain"
           fetchpriority="high"
         />
-        {CATEGORIES.map((c, i) => {
+        {CATEGORIES.slice(0, 7).map((c, i) => {
           const pos = [
             "left-0 top-[9%]",
             "left-[56%] top-0",

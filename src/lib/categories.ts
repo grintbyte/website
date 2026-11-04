@@ -61,6 +61,36 @@ export const CATEGORIES: Category[] = [
     blurb: "Standalone products we build and run end to end.",
     icon: "stack",
   },
+  // The home orbit visual shows only the first 7 categories (platform
+  // integrations); the ones below list everywhere else.
+  {
+    label: "ERPNext Apps",
+    slug: "erpnext-apps",
+    tagline: "Make ERPNext fit your operation",
+    blurb: "Apps that extend the ERPNext open source ERP.",
+    icon: "cube",
+  },
+  {
+    label: "Business Playbooks",
+    slug: "business-playbooks",
+    tagline: "Proven ways of working, written down",
+    blurb: "Ready-to-use playbooks that document how a business runs.",
+    icon: "book",
+  },
+  {
+    label: "Operational SOP Kits",
+    slug: "operational-sop-kits",
+    tagline: "Standard operating procedures, ready to adopt",
+    blurb: "SOP templates and kits that put daily operations on paper.",
+    icon: "clipboard",
+  },
+  {
+    label: "Professional Kits",
+    slug: "professional-kits",
+    tagline: "Tools and templates for professional work",
+    blurb: "Document and template kits for professionals and teams.",
+    icon: "briefcase",
+  },
 ];
 
 export const CATEGORY_LABELS = CATEGORIES.map((c) => c.label) as [string, ...string[]];
